@@ -107,9 +107,25 @@ for address,profile in selected:
                 required=('is_honeypot','is_mintable','hidden_owner','is_open_source','buy_tax','sell_tax','cannot_sell_all')
                 missing=[k for k in required if data.get(k) in (None,'')]
                 if str(data.get('is_open_source',''))=='0':flags.append('closed_source')
+                # GoPlus holder entries are partial snapshots; do not confuse top wallets
+                # with beneficial ownership, and do not claim an LP lock from LP holders.
+                holders=data.get('holders')
+                portions=[]
+                if isinstance(holders,list):
+                    for holder in holders[:10]:
+                        if not isinstance(holder,dict):continue
+                        try:
+                            value=float(holder.get('percent'))
+                            if math.isfinite(value) and 0<=value<=1:portions.append(value)
+                        except (TypeError,ValueError):continue
+                top10=round(sum(portions)*100,2) if len(portions)==10 else None
+                if top10 is not None and top10>60:flags.append('top10_wallets_over_60pct')
                 sellability='HIGH_RISK' if 'is_honeypot' in flags or 'cannot_sell_all' in flags else 'UNVERIFIED'
                 risk={'source':'GoPlus','checked':not bool(missing),'missing_fields':missing,
                       'flags':flags,'sellability':sellability,
+                      'top10_reported_wallets_pct':top10,
+                      'top10_is_beneficial_ownership':False,
+                      'lp_lock_status':'UNVERIFIED',
                       'status':'FLAGS' if flags else ('PARTIAL_CHECK' if missing else 'CHECKED_FIELDS_ONLY')}
         except Exception as exc:
             risk['error']=type(exc).__name__
