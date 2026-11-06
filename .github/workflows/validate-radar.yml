@@ -1,0 +1,38 @@
+name: Validate Radar
+on:
+  push:
+    paths:
+      - 'index.html'
+      - 'scripts/**'
+      - 'data/coins.json'
+      - 'data/candidates.json'
+      - '.github/workflows/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Integrity and veto checks
+        run: python scripts/validate_radar.py
+      - name: Verify Python syntax
+        run: python -m py_compile scripts/update_prices.py scripts/discover_candidates.py scripts/validate_radar.py
+      - name: Verify browser JavaScript syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          page=Path('index.html').read_text()
+          scripts=re.findall(r'<script>(.*?)</script>',page,re.S)
+          assert len(scripts)==2
+          for i,source in enumerate(scripts):
+              Path('/tmp/radar_script_'+str(i)+'.js').write_text(source)
+          PY
+          node --check /tmp/radar_script_0.js
+          node --check /tmp/radar_script_1.js
