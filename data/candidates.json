@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-06T19:16:45.548594+00:00",
+  "updated_at": "2026-11-06T19:19:06.224040+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
-  "screened_bsc_profiles": 4,
+  "screened_bsc_profiles": 18,
   "candidates": [
     {
       "name": "JAGENT",
@@ -10,11 +10,13 @@
       "contract": "0x8e6442663a4f8c50b6132c68d42a30e7dfe4ae15",
       "pair": "0xE6efCdEf2b720d1eca2b69eDB7ef357725680BEa",
       "dex_url": "https://dexscreener.com/bsc/0xe6efcdef2b720d1eca2b69edb7ef357725680bea",
-      "liquidity_usd": 393231.36,
-      "volume_24h_usd": 582372.53,
-      "market_cap_usd": 1654602.0,
+      "liquidity_usd": 393724.85,
+      "volume_24h_usd": 579076.98,
+      "market_cap_usd": 1657858.0,
       "pair_age_days": 9.4,
-      "discovered_at": "2026-11-06T19:16:45.548594+00:00",
+      "discovered_at": "2026-11-06T19:19:06.224040+00:00",
+      "liquidity_to_market_cap": 0.2375,
+      "volume_to_liquidity": 1.4708,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -22,6 +24,7 @@
         "flags": [
           "is_mintable"
         ],
+        "sellability": "UNVERIFIED",
         "status": "FLAGS"
       },
       "project_verified": false,
@@ -39,11 +42,13 @@
       "contract": "0x63dea5acdbe1f27c968907d08610a5f0a0284ba6",
       "pair": "0xE56041CdDBB46DB01c67B7A62684F428a04Db8C6",
       "dex_url": "https://dexscreener.com/bsc/0xe56041cddbb46db01c67b7a62684f428a04db8c6",
-      "liquidity_usd": 191500.48,
-      "volume_24h_usd": 585665.76,
-      "market_cap_usd": 448899.0,
+      "liquidity_usd": 191517.14,
+      "volume_24h_usd": 585566.65,
+      "market_cap_usd": 449214.0,
       "pair_age_days": 4.4,
-      "discovered_at": "2026-11-06T19:16:45.548594+00:00",
+      "discovered_at": "2026-11-06T19:19:06.224040+00:00",
+      "liquidity_to_market_cap": 0.4263,
+      "volume_to_liquidity": 3.0575,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -51,7 +56,40 @@
         "flags": [
           "is_mintable"
         ],
+        "sellability": "UNVERIFIED",
         "status": "FLAGS"
+      },
+      "project_verified": false,
+      "lp_lock_verified": false,
+      "holders_verified": false,
+      "sellability_verified": false,
+      "unlock_verified": false,
+      "decision": "SKIP",
+      "reason": "Incomplete independent security/product verification"
+    },
+    {
+      "name": "bInference",
+      "symbol": "BINF",
+      "chain": "bsc",
+      "contract": "0x9862d6478cb8098645815ff27f91efbc659f7777",
+      "pair": "0x25EE4Fa4BFf5363d47496e68377B1241E8E21a47",
+      "dex_url": "https://dexscreener.com/bsc/0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
+      "liquidity_usd": 42186.03,
+      "volume_24h_usd": 13053.33,
+      "market_cap_usd": 174996.0,
+      "pair_age_days": 37.1,
+      "discovered_at": "2026-11-06T19:19:06.224040+00:00",
+      "liquidity_to_market_cap": 0.2411,
+      "volume_to_liquidity": 0.3094,
+      "security": {
+        "source": "GoPlus",
+        "checked": false,
+        "missing_fields": [
+          "cannot_sell_all"
+        ],
+        "flags": [],
+        "sellability": "UNVERIFIED",
+        "status": "PARTIAL_CHECK"
       },
       "project_verified": false,
       "lp_lock_verified": false,
@@ -62,6 +100,16 @@
       "reason": "Incomplete independent security/product verification"
     }
   ],
-  "coverage": "Recent publicly listed DexScreener profiles only; not an exhaustive BNB listing",
+  "search_terms": [
+    "AI",
+    "DePIN",
+    "agent",
+    "compute",
+    "GPU",
+    "robot",
+    "inference"
+  ],
+  "search_errors": [],
+  "coverage": "Sampled latest DexScreener profiles and seven searches; not exhaustive",
   "note": "All candidates are unverified and SKIP. Screening can miss projects; no complete audit."
 }
