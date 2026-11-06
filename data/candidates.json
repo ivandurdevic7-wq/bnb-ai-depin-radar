@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-06T19:19:06.224040+00:00",
+  "updated_at": "2026-11-06T19:19:40.658479+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
   "screened_bsc_profiles": 18,
   "candidates": [
@@ -14,7 +14,7 @@
       "volume_24h_usd": 579076.98,
       "market_cap_usd": 1657858.0,
       "pair_age_days": 9.4,
-      "discovered_at": "2026-11-06T19:19:06.224040+00:00",
+      "discovered_at": "2026-11-06T19:19:40.658479+00:00",
       "liquidity_to_market_cap": 0.2375,
       "volume_to_liquidity": 1.4708,
       "security": {
@@ -42,13 +42,13 @@
       "contract": "0x63dea5acdbe1f27c968907d08610a5f0a0284ba6",
       "pair": "0xE56041CdDBB46DB01c67B7A62684F428a04Db8C6",
       "dex_url": "https://dexscreener.com/bsc/0xe56041cddbb46db01c67b7a62684f428a04db8c6",
-      "liquidity_usd": 191517.14,
-      "volume_24h_usd": 585566.65,
-      "market_cap_usd": 449214.0,
+      "liquidity_usd": 191512.73,
+      "volume_24h_usd": 582719.85,
+      "market_cap_usd": 449194.0,
       "pair_age_days": 4.4,
-      "discovered_at": "2026-11-06T19:19:06.224040+00:00",
+      "discovered_at": "2026-11-06T19:19:40.658479+00:00",
       "liquidity_to_market_cap": 0.4263,
-      "volume_to_liquidity": 3.0575,
+      "volume_to_liquidity": 3.0427,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -78,7 +78,7 @@
       "volume_24h_usd": 13053.33,
       "market_cap_usd": 174996.0,
       "pair_age_days": 37.1,
-      "discovered_at": "2026-11-06T19:19:06.224040+00:00",
+      "discovered_at": "2026-11-06T19:19:40.658479+00:00",
       "liquidity_to_market_cap": 0.2411,
       "volume_to_liquidity": 0.3094,
       "security": {
