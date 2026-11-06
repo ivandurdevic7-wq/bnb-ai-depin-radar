@@ -116,4 +116,32 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn('cannot_sell_all',item['security']['flags'])
         self.assertEqual(item['security']['sellability'],'HIGH_RISK')
 
+
+    def test_top_wallet_concentration_requires_ten_valid_wallets(self):
+        sec=json.loads(json.dumps(SECURITY))
+        sec['result'][ADDR]['is_honeypot']='0'
+        sec['result'][ADDR]['holders']=[{'percent':'0.07'} for _ in range(10)]
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},
+            'token-pairs/v1/bsc/':PAIR_RESPONSE,'token_security/56':sec})
+        self.assertEqual(code,0)
+        token=saved[0]['candidates'][0]
+        self.assertEqual(token['security']['top10_reported_wallets_pct'],70)
+        self.assertIn('top10_wallets_over_60pct',token['security']['flags'])
+        self.assertFalse(token['holders_verified'])
+        self.assertEqual(token['decision'],'SKIP')
+
+    def test_incomplete_holders_remain_unknown(self):
+        sec=json.loads(json.dumps(SECURITY))
+        sec['result'][ADDR]['holders']=[{'percent':'0.99'}]
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},
+            'token-pairs/v1/bsc/':PAIR_RESPONSE,'token_security/56':sec})
+        self.assertEqual(code,0)
+        token=saved[0]['candidates'][0]
+        self.assertIsNone(token['security']['top10_reported_wallets_pct'])
+        self.assertNotIn('top10_wallets_over_60pct',token['security']['flags'])
+        self.assertFalse(token['lp_lock_verified'])
+        self.assertEqual(token['decision'],'SKIP')
+
 if __name__=='__main__':unittest.main()
