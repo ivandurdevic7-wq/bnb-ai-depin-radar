@@ -21,6 +21,20 @@ def norm(address):
         return address.lower()
     return None
 
+
+def recent_successes(candidate_count, screened):
+    # Only successful snapshots are recorded. Missing runs are not evidence of uptime.
+    try:
+        previous=json.loads(DEST.read_text(encoding='utf-8'))
+        history=previous.get('successful_scans',[])
+        if not isinstance(history,list):history=[]
+    except (OSError,ValueError,TypeError):
+        history=[]
+    valid=[row for row in history if isinstance(row,dict) and
+           isinstance(row.get('at'),str) and isinstance(row.get('candidates'),int)]
+    valid.append({'at':now.isoformat(),'candidates':candidate_count,'screened':screened})
+    return valid[-60:]
+
 try:
     profiles = get('https://api.dexscreener.com/token-profiles/latest/v1')
     if not isinstance(profiles,list):
@@ -59,7 +73,7 @@ for term in search_terms:
         search_errors.append(term+': '+type(exc).__name__)
 if not selected:
     result={'updated_at':now.isoformat(),'source':'DexScreener profiles and search',
-            'screened_bsc_profiles':0,'candidates':[], 'coverage':'No BNB results from available public feeds',
+            'screened_bsc_profiles':0,'candidates':[], 'successful_scans':recent_successes(0,0), 'coverage':'No BNB results from available public feeds',
             'search_errors':search_errors,
             'note':'No candidates found from sampled public feeds; not a complete market census. SKIP.'}
     DEST.parent.mkdir(parents=True,exist_ok=True)
@@ -143,6 +157,7 @@ for address,profile in selected:
 out.sort(key=lambda t:(t['security']['checked'], t['liquidity_usd']),reverse=True)
 result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles + pool data; optional GoPlus',
         'screened_bsc_profiles':len(selected),'candidates':out[:30], 'search_terms':list(search_terms),
+        'successful_scans':recent_successes(min(len(out),30),len(selected)),
         'search_errors':search_errors,
         'coverage':'Sampled latest DexScreener profiles and seven searches; not exhaustive',
         'note':'All candidates are unverified and SKIP. Screening can miss projects; no complete audit.'}
