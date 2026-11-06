@@ -1,0 +1,198 @@
+[
+  {
+    "name": "PublicAI",
+    "symbol": "PUBLIC",
+    "id": "publicai",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "WhiteBridge Network",
+    "symbol": "WBAI",
+    "id": "whitebridge-network",
+    "status": "OPREZ",
+    "group": "stari"
+  },
+  {
+    "name": "GT Protocol",
+    "symbol": "GTAI",
+    "id": "gt-protocol",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "HyperGPT",
+    "symbol": "HGPT",
+    "id": "hypergpt",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "LimeWire",
+    "symbol": "LMWR",
+    "id": "limewire",
+    "status": "OPREZ",
+    "group": "stari"
+  },
+  {
+    "name": "Cookie DAO",
+    "symbol": "COOKIE",
+    "id": "cookie",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "Mind Network",
+    "symbol": "FHE",
+    "id": "mind-network",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "ChainGPT",
+    "symbol": "CGPT",
+    "id": "chaingpt",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "Ankr",
+    "symbol": "ANKR",
+    "id": "ankr",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "Mysterium",
+    "symbol": "MYST",
+    "id": "mysterium",
+    "status": "OPREZ",
+    "group": "stari"
+  },
+  {
+    "name": "DeepBrain Chain",
+    "symbol": "DBC",
+    "id": "deepbrain-chain",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "Zypher Network",
+    "symbol": "POP",
+    "id": "zypher-network",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "RICE AI",
+    "symbol": "RICE",
+    "id": "rice-ai",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "Xeleb Protocol",
+    "symbol": "XCX",
+    "id": "xeleb-protocol",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "Everlyn",
+    "symbol": "LYN",
+    "id": "everlyn",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "Covalent X",
+    "symbol": "CXT",
+    "id": "covalent-x",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "NeoSoul",
+    "symbol": "DNA",
+    "id": "neosoul",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "DGrid AI",
+    "symbol": "DGAI",
+    "id": "dgrid-ai",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "Build4",
+    "symbol": "B4",
+    "id": "build4",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "ARIA.AI",
+    "symbol": "ARIA",
+    "id": "aria-ai",
+    "status": "SKIP",
+    "group": "stari"
+  },
+  {
+    "name": "Agentic Coin",
+    "symbol": "AGC",
+    "id": "agentic-coin",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "JAGENT",
+    "symbol": "JAGENT",
+    "id": "jagent",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "SecantX AI",
+    "symbol": "SECA",
+    "id": "secantx-ai",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "Agent ID",
+    "symbol": "AI",
+    "id": "agent-id",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "4AI",
+    "symbol": "4AI",
+    "id": "4ai",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "SyFu",
+    "symbol": "SYFU",
+    "id": "syfu",
+    "status": "SKIP",
+    "group": "novi"
+  },
+  {
+    "name": "ChainOpera AI",
+    "symbol": "COAI",
+    "id": "chainopera-ai",
+    "status": "PRATITI",
+    "group": "stari"
+  },
+  {
+    "name": "IoTeX",
+    "symbol": "IOTX",
+    "id": "iotex",
+    "status": "PRATITI",
+    "group": "stari"
+  }
+]
