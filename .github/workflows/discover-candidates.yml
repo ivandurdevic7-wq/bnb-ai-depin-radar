@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: '37 */6 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/discover_candidates.py'
+      - 'scripts/test_discovery.py'
+      - '.github/workflows/discover-candidates.yml'
 permissions:
   contents: write
 concurrency:
@@ -17,6 +22,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Run offline risk and API regression tests
+        run: python -m unittest discover -s scripts -p 'test_discovery.py' -v
       - name: DexScreener and GoPlus screening (no trading)
         run: python scripts/discover_candidates.py
       - name: Commit unverified candidates
