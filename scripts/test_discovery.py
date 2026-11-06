@@ -85,4 +85,35 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(code,0)
         self.assertEqual(saved[0]['candidates'],[])
 
+
+    def test_search_also_runs_when_profiles_exist(self):
+        other='0x'+'c'*40
+        extra=json.loads(json.dumps(PAIR_RESPONSE))
+        extra[0]['baseToken']['address']=other
+        extra[0]['baseToken']['name']='DePIN Compute'
+        extra[0]['baseToken']['symbol']='DEPIN'
+        responses={'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':extra},
+            'token-pairs/v1/bsc/'+other:extra,
+            'token-pairs/v1/bsc/'+ADDR:PAIR_RESPONSE,
+            'token_security/56':SECURITY}
+        saved,code=self.simulate(responses)
+        self.assertEqual(code,0)
+        self.assertEqual(len(saved[0]['candidates']),2)
+        self.assertEqual(set(v['contract'] for v in saved[0]['candidates']),{ADDR,other})
+
+    def test_cannot_sell_all_high_risk(self):
+        sec=json.loads(json.dumps(SECURITY))
+        sec['result'][ADDR]['is_honeypot']='0'
+        sec['result'][ADDR]['cannot_sell_all']='1'
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},
+            'token-pairs/v1/bsc/':PAIR_RESPONSE,
+            'token_security/56':sec})
+        self.assertEqual(code,0)
+        item=saved[0]['candidates'][0]
+        self.assertEqual(item['decision'],'SKIP')
+        self.assertIn('cannot_sell_all',item['security']['flags'])
+        self.assertEqual(item['security']['sellability'],'HIGH_RISK')
+
 if __name__=='__main__':unittest.main()
