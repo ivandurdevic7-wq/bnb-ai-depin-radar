@@ -23,4 +23,4 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/prices.json data/history.json
-          git diff --cached --quiet || (git commit -m 'Update crypto market snapshots' && git push)
+          git diff --cached --quiet || (git commit -m 'Update crypto market snapshots' && (git pull --rebase origin main && git push origin main))
