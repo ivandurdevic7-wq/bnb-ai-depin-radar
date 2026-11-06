@@ -43,10 +43,22 @@ class DiscoveryTests(unittest.TestCase):
         self.assertNotEqual(code,0)
         self.assertEqual(saved,[])
 
-    def test_wrong_chain_fails_closed_without_overwriting(self):
-        saved,code=self.simulate({'token-profiles/latest':[{'chainId':'ethereum','tokenAddress':ADDR}]})
-        self.assertNotEqual(code,0)
-        self.assertEqual(saved,[])
+    def test_wrong_chain_records_empty_skip_snapshot(self):
+        saved,code=self.simulate({'token-profiles/latest':[{'chainId':'ethereum','tokenAddress':ADDR}],
+             'latest/dex/search':{'pairs':[]}})
+        self.assertEqual(code,0)
+        self.assertEqual(len(saved),1)
+        self.assertEqual(saved[0]['candidates'],[])
+        self.assertEqual(saved[0]['screened_bsc_profiles'],0)
+
+    def test_search_fallback_bnb_candidate_is_skip(self):
+        saved,code=self.simulate({'token-profiles/latest':[],
+             'latest/dex/search':{'pairs':PAIR_RESPONSE},
+             'token-pairs/v1/bsc/':PAIR_RESPONSE,
+             'token_security/56':SECURITY})
+        self.assertEqual(code,0)
+        self.assertEqual(len(saved[0]['candidates']),1)
+        self.assertEqual(saved[0]['candidates'][0]['decision'],'SKIP')
 
     def test_flagged_token_always_skip(self):
         saved,code=self.simulate({'token-profiles/latest':[PROFILE],
