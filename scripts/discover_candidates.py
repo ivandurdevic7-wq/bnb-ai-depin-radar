@@ -39,8 +39,31 @@ for p in profiles:
     selected.append((address,p))
     if len(selected)>=40:break
 if not selected:
-    print('No usable BNB profiles in this feed; keeping previous snapshot',file=sys.stderr)
-    sys.exit(2)
+    # Latest profile feed often contains only other chains. Search is a secondary
+    # discovery source, never a substitute for verifying the actual BNB contract.
+    for term in ('AI','DePIN','agent'):
+        try:
+            response=get('https://api.dexscreener.com/latest/dex/search?q='+quote(term))
+            for pair in response.get('pairs',[]):
+                if not isinstance(pair,dict) or pair.get('chainId')!='bsc':continue
+                base=pair.get('baseToken') or {}
+                address=norm(base.get('address'))
+                if not address or address in seen:continue
+                if not keywords.search(str(base.get('name',''))+' '+str(base.get('symbol',''))):continue
+                selected.append((address,{'description':term,'chainId':'bsc','tokenAddress':address}))
+                seen.add(address)
+                if len(selected)>=25:break
+            if len(selected)>=25:break
+        except Exception as exc:
+            print('Search fallback unavailable:',type(exc).__name__,file=sys.stderr)
+if not selected:
+    result={'updated_at':now.isoformat(),'source':'DexScreener profiles and search',
+            'screened_bsc_profiles':0,'candidates':[], 'coverage':'No BNB results from available public feeds',
+            'note':'No new candidates found. Do not interpret as a complete absence of AI tokens. All trades remain SKIP.'}
+    DEST.parent.mkdir(parents=True,exist_ok=True)
+    DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')
+    print('No BNB candidates in public feeds; recorded empty, explicitly unverified snapshot')
+    sys.exit(0)
 
 out=[]
 for address,profile in selected:
