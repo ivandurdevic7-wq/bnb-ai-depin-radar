@@ -13,7 +13,7 @@ ADDR='0x'+'a'*40
 PAIR='0x'+'b'*40
 PROFILE={'chainId':'bsc','tokenAddress':ADDR,'description':'An AI compute network'}
 PAIR_RESPONSE=[{'chainId':'bsc','baseToken':{'address':ADDR,'name':'Demo AI Compute','symbol':'DEMO'},
- 'liquidity':{'usd':25000},'volume':{'h24':5000},'marketCap':125000,'pairCreatedAt':1762500000000,
+ 'liquidity':{'usd':25000},'volume':{'h24':5000},'marketCap':125000,'pairCreatedAt':1793880000000,
  'pairAddress':PAIR,'url':'https://dexscreener.com/bsc/'+PAIR}]
 SECURITY={'result':{ADDR:{'is_honeypot':'1','is_mintable':'0','hidden_owner':'0',
  'is_open_source':'1','buy_tax':'0','sell_tax':'0'}}}
