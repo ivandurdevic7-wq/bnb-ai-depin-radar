@@ -61,7 +61,7 @@ if not selected:
             'screened_bsc_profiles':0,'candidates':[], 'coverage':'No BNB results from available public feeds',
             'note':'No new candidates found. Do not interpret as a complete absence of AI tokens. All trades remain SKIP.'}
     DEST.parent.mkdir(parents=True,exist_ok=True)
-    DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')
+    DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('No BNB candidates in public feeds; recorded empty, explicitly unverified snapshot')
     sys.exit(0)
 
