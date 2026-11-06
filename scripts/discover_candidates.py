@@ -2,7 +2,7 @@
 """BNB token discovery: public DexScreener + optional GoPlus risk checks.
 Discovery is not investment validation; every candidate is SKIP.
 """
-import json, re, sys, time
+import json, re, sys, time, math
 from pathlib import Path
 from datetime import datetime, timezone
 from urllib.request import Request, urlopen
@@ -38,6 +38,9 @@ for p in profiles:
     seen.add(address)
     selected.append((address,p))
     if len(selected)>=40:break
+if not selected:
+    print('No usable BNB profiles in this feed; keeping previous snapshot',file=sys.stderr)
+    sys.exit(2)
 
 out=[]
 for address,profile in selected:
@@ -55,11 +58,12 @@ for address,profile in selected:
             continue
         liquidity=float((pair.get('liquidity') or {}).get('usd') or 0)
         volume=float((pair.get('volume') or {}).get('h24') or 0)
+        if not math.isfinite(liquidity) or not math.isfinite(volume): continue
         cap=pair.get('marketCap')
-        cap=float(cap) if isinstance(cap,(int,float)) else None
+        cap=float(cap) if isinstance(cap,(int,float)) and math.isfinite(cap) else None
         created=pair.get('pairCreatedAt')
         age_days=round((now.timestamp()*1000-created)/86400000,1) if isinstance(created,(int,float)) else None
-        if liquidity<10000 or volume<1000 or (cap is not None and cap>5000000) or (age_days is not None and age_days>90):
+        if liquidity<10000 or volume<1000 or (cap is not None and cap>5000000) or (age_days is not None and (age_days<0 or age_days>90)):
             continue
         risk={'source':'GoPlus', 'checked':False, 'flags':[], 'status':'NOT_CHECKED'}
         try:
@@ -75,7 +79,11 @@ for address,profile in selected:
                         try:
                             if float(value)>.1:flags.append(key+'>10%')
                         except (ValueError,TypeError):pass
-                risk={'source':'GoPlus', 'checked':True, 'flags':flags,'status':'FLAGS' if flags else 'PARTIAL_CHECK'}
+                required=('is_honeypot','is_mintable','hidden_owner','is_open_source','buy_tax','sell_tax')
+                missing=[k for k in required if data.get(k) in (None,'')]
+                if str(data.get('is_open_source',''))=='0':flags.append('closed_source')
+                risk={'source':'GoPlus','checked':not bool(missing),'missing_fields':missing,
+                      'flags':flags,'status':'FLAGS' if flags else ('PARTIAL_CHECK' if missing else 'CHECKED_FIELDS_ONLY')}
         except Exception as exc:
             risk['error']=type(exc).__name__
         out.append({'name':name,'symbol':symbol,'chain':'bsc','contract':address,'pair':pair.get('pairAddress'),
@@ -90,6 +98,7 @@ for address,profile in selected:
 out.sort(key=lambda t:(t['security']['checked'], t['liquidity_usd']),reverse=True)
 result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles + pool data; optional GoPlus',
         'screened_bsc_profiles':len(selected),'candidates':out[:20],
+        'coverage':'Recent publicly listed DexScreener profiles only; not an exhaustive BNB listing',
         'note':'All candidates are unverified and SKIP. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
 DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
