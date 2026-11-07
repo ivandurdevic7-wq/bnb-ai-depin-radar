@@ -85,6 +85,40 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(code,0)
         self.assertEqual(saved[0]['candidates'],[])
 
+    def test_geckoterminal_matching_index_is_not_project_approval(self):
+        secondary={'data':{'id':'bsc_'+ADDR,'attributes':{
+            'name':'Demo AI Compute','symbol':'DEMO'}}}
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':PAIR_RESPONSE,
+            'token_security/56':SECURITY,'geckoterminal.com':secondary})
+        self.assertEqual(code,0)
+        candidate=saved[0]['candidates'][0]
+        self.assertEqual(candidate['secondary_source']['status'],'MATCH')
+        self.assertFalse(candidate['secondary_source']['project_verified'])
+        self.assertEqual(candidate['decision'],'SKIP')
+
+    def test_geckoterminal_mismatched_identity_remains_skip(self):
+        secondary={'data':{'id':'bsc_'+ADDR,'attributes':{
+            'name':'Impersonated Token','symbol':'FAKE'}}}
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':PAIR_RESPONSE,
+            'token_security/56':SECURITY,'geckoterminal.com':secondary})
+        self.assertEqual(code,0)
+        candidate=saved[0]['candidates'][0]
+        self.assertEqual(candidate['secondary_source']['status'],'MISMATCH')
+        self.assertEqual(candidate['decision'],'SKIP')
+
+    def test_secondary_provider_outage_is_unknown_not_safe(self):
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':PAIR_RESPONSE,
+            'token_security/56':SECURITY,
+            'geckoterminal.com':URLError('offline')})
+        self.assertEqual(code,0)
+        candidate=saved[0]['candidates'][0]
+        self.assertEqual(candidate['secondary_source']['status'],'UNAVAILABLE')
+        self.assertFalse(candidate['secondary_source']['checked'])
+        self.assertEqual(candidate['decision'],'SKIP')
+
     def test_missing_pool_address_is_rejected(self):
         invalid=json.loads(json.dumps(PAIR_RESPONSE))
         invalid[0]['pairAddress']=None
