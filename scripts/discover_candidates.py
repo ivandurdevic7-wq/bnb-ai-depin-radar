@@ -12,7 +12,19 @@ ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / 'data' / 'candidates.json'
 UA = {'Accept':'application/json', 'User-Agent':'BNB-AI-DePIN-Radar/3.0'}
 now = datetime.now(timezone.utc)
-keywords = re.compile(r'(?i)(?:\bai\b|agent|depin|compute|robot|inference|neural|gpu|data network|artificial intelligence|machine learning)')
+# Candidate sectors are thematic labels inferred from public pair names, NOT verified business classifications.
+SECTOR_RULES = {
+    'AI / DePIN': re.compile(r'(?i)(?:\\bai\\b|agent|depin|compute|robot|inference|neural|\\bgpu\\b|artificial intelligence|machine learning|\\biot\\b|sensor)'),
+    'DeFi': re.compile(r'(?i)(?:\\bdefi\\b|\\bdex\\b|swap|staking|liquid staking|yield|lending|borrow|liquidity protocol)'),
+    'RWA': re.compile(r'(?i)(?:\\brwa\\b|tokenized real|real.world asset|tokenized treasury|asset tokenization)'),
+    'Gaming': re.compile(r'(?i)(?:\\bgamefi\\b|\\bgaming\\b|\\bgame\\b|play.to.earn|\\bp2e\\b|\\bguild\\b)'),
+    'Infrastructure': re.compile(r'(?i)(?:\\boracle\\b|cross.chain|interoperab|\\bbridge\\b|\\brollup\\b|\\blayer.?2\\b|\\bindexer\\b)'),
+    'Meme': re.compile(r'(?i)(?:\\bmeme\\b|\\bmemecoin\\b|\\bdoge\\b|\\bpepe\\b|\\bshib\\b|\\binu\\b)'),
+}
+def sectors_for(text):
+    return [name for name,pattern in SECTOR_RULES.items() if pattern.search(str(text))]
+keywords = re.compile('|'.join('(?:'+r.pattern+')' for r in SECTOR_RULES.values()), re.I)
+
 def get(url):
     with urlopen(Request(url,headers=UA),timeout=17) as r:
         return json.load(r)
@@ -54,7 +66,7 @@ for p in profiles:
     if len(selected)>=40:break
 # Always broaden coverage beyond the latest promotional profiles.
 # Search results are discovered leads, not independent evidence of legitimacy.
-search_terms=('AI','DePIN','agent','compute','GPU','robot','inference')
+search_terms=('AI','DePIN','agent','compute','GPU','robot','inference','DeFi','swap','staking','RWA','tokenized','GameFi','gaming','oracle','bridge','meme')
 search_errors=[]
 for term in search_terms:
     try:
@@ -67,8 +79,8 @@ for term in search_terms:
             if not keywords.search(str(base.get('name',''))+' '+str(base.get('symbol',''))):continue
             selected.append((address,{'description':term,'chainId':'bsc','tokenAddress':address}))
             seen.add(address)
-            if len(selected)>=100:break
-        if len(selected)>=100:break
+            if len(selected)>=180:break
+        if len(selected)>=180:break
     except Exception as exc:
         search_errors.append(term+': '+type(exc).__name__)
 if not selected:
@@ -93,8 +105,9 @@ for address,profile in selected:
         name=(pair.get('baseToken') or {}).get('name','')
         symbol=(pair.get('baseToken') or {}).get('symbol','')
         about=str(profile.get('description') or '')
-        if not keywords.search(str(name)+' '+str(symbol)+' '+about):
-            continue
+        sectors=sectors_for(str(name)+' '+str(symbol))
+        if not sectors:
+            continue  # Search term or promotional profile text alone cannot assert sector identity
         liquidity=float((pair.get('liquidity') or {}).get('usd') or 0)
         volume=float((pair.get('volume') or {}).get('h24') or 0)
         if not math.isfinite(liquidity) or not math.isfinite(volume): continue
@@ -146,6 +159,7 @@ for address,profile in selected:
         out.append({'name':name,'symbol':symbol,'chain':'bsc','contract':address,'pair':pair.get('pairAddress'),
                     'dex_url':pair.get('url'),'liquidity_usd':liquidity,'volume_24h_usd':volume,
                     'market_cap_usd':cap,'pair_age_days':age_days,'discovered_at':now.isoformat(),
+                    'sectors':sectors,'sector_classification':'KEYWORD_HEURISTIC_UNVERIFIED',
                     'liquidity_to_market_cap':round(liquidity/cap,4) if cap and cap>0 else None,
                     'volume_to_liquidity':round(volume/liquidity,4) if liquidity>0 else None,
                     'security':risk,'project_verified':False,'lp_lock_verified':False,
@@ -159,8 +173,8 @@ result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles
         'screened_bsc_profiles':len(selected),'candidates':out[:30], 'search_terms':list(search_terms),
         'successful_scans':recent_successes(min(len(out),30),len(selected)),
         'search_errors':search_errors,
-        'coverage':'Sampled latest DexScreener profiles and seven searches; not exhaustive',
+        'coverage':'Sampled latest DexScreener profiles and thematic searches; not exhaustive',
         'note':'All candidates are unverified and SKIP. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
 DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-print('Scanned',len(selected),'BNB profiles, found',len(out),'unverified AI-ish candidates')
+print('Scanned',len(selected),'BNB profiles, found',len(out),'unverified multi-sector candidates')
