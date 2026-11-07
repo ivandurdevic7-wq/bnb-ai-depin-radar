@@ -114,10 +114,10 @@ for kind in ('new_pools','trending_pools'):
     try:
         response=get('https://api.geckoterminal.com/api/v2/networks/bsc/'+kind+'?include=base_token')
         included={}
-        for record in response.get('included',[]):
+        for record in response.get('included',[]) if isinstance(response,dict) else []:
             if isinstance(record,dict) and record.get('type')=='token':
                 included[record.get('id')]=record.get('attributes') or {}
-        for pool in response.get('data',[]):
+        for pool in response.get('data',[]) if isinstance(response,dict) else []:
             if not isinstance(pool,dict):continue
             relationship=((pool.get('relationships') or {}).get('base_token') or {}).get('data') or {}
             token=included.get(relationship.get('id'),{})
@@ -134,7 +134,7 @@ for kind in ('new_pools','trending_pools'):
     time.sleep(6.5)
 
 if not selected:
-    result={'updated_at':now.isoformat(),'source':'DexScreener profiles and search',
+    result={'updated_at':now.isoformat(),'source':'DexScreener searches and GeckoTerminal BSC pools',
             'screened_bsc_profiles':0,'candidates':[], 'successful_scans':recent_successes(0,0), 'coverage':'No BNB results from available public feeds',
             'search_errors':search_errors,'search_checks_by_sector':search_checks,
             'geckoterminal_discovery_leads':gecko_leads,'geckoterminal_discovery_errors':gecko_errors,
@@ -262,12 +262,14 @@ for token in out[:6]:
 
 sector_results={sector:sum(sector in t['sectors'] for t in out) for sector in SECTOR_RULES}
 
-result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles + pool data; optional GoPlus',
+result={'updated_at':now.isoformat(),'source':'DexScreener searches and pair data; GeckoTerminal new/trending BSC pools and limited identity cross-check; optional GoPlus',
         'screened_bsc_profiles':len(selected),'candidates':out[:60], 'search_terms':list(search_terms),
         'successful_scans':recent_successes(min(len(out),60),len(selected)),
         'search_errors':search_errors,'search_checks_by_sector':search_checks,
         'sector_results_before_display_limit':sector_results,
-        'coverage':'Sector-specific sampled public DEX searches; GeckoTerminal second-source checks for up to 6 candidates, not exhaustive',
+        'geckoterminal_discovery_leads':gecko_leads,
+        'geckoterminal_discovery_errors':gecko_errors,
+        'coverage':'DexScreener thematic search plus GeckoTerminal BSC new/trending pools; pair data checked on DexScreener, not exhaustive',
         'note':'All candidates are unverified and SKIP. GeckoTerminal indexing does not confirm project legitimacy. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
 DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
