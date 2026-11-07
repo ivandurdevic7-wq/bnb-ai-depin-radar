@@ -77,6 +77,41 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(saved[0]['candidates'][0]['decision'],'SKIP')
         self.assertFalse(saved[0]['candidates'][0]['security']['checked'])
 
+    def test_mismatched_base_contract_is_rejected(self):
+        wrong=json.loads(json.dumps(PAIR_RESPONSE))
+        wrong[0]['baseToken']['address']='0x'+'f'*40
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':wrong})
+        self.assertEqual(code,0)
+        self.assertEqual(saved[0]['candidates'],[])
+
+    def test_missing_pool_address_is_rejected(self):
+        invalid=json.loads(json.dumps(PAIR_RESPONSE))
+        invalid[0]['pairAddress']=None
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':invalid})
+        self.assertEqual(code,0)
+        self.assertEqual(saved[0]['candidates'],[])
+
+    def test_sector_label_requires_token_name_or_symbol(self):
+        disguised=json.loads(json.dumps(PAIR_RESPONSE))
+        disguised[0]['baseToken']['name']='Unrelated Asset'
+        disguised[0]['baseToken']['symbol']='UA'
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':disguised})
+        self.assertEqual(code,0)
+        self.assertEqual(saved[0]['candidates'],[])
+
+    def test_identity_evidence_is_not_independent_verification(self):
+        saved,code=self.simulate({'token-profiles/latest':[PROFILE],
+            'latest/dex/search':{'pairs':[]},'token-pairs/v1/bsc/':PAIR_RESPONSE,
+            'token_security/56':SECURITY})
+        self.assertEqual(code,0)
+        token=saved[0]['candidates'][0]
+        self.assertTrue(token['identity_evidence']['base_address_matches_contract'])
+        self.assertFalse(token['identity_evidence']['independent_project_identity_verified'])
+        self.assertEqual(token['decision'],'SKIP')
+
     def test_low_liquidity_is_excluded(self):
         bad=json.loads(json.dumps(PAIR_RESPONSE))
         bad[0]['liquidity']['usd']=200
