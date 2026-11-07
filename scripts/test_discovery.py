@@ -38,6 +38,40 @@ class DiscoveryTests(unittest.TestCase):
             except SystemExit as e:return saved,e.code
         return saved,0
 
+    def test_gecko_new_pool_discovery_requires_bsc_contract_and_dex_pair(self):
+        newcomer='0x'+'c'*40
+        newpair=json.loads(json.dumps(PAIR_RESPONSE))
+        newpair[0]['baseToken']={'address':newcomer,'name':'New GameFi Arena','symbol':'GAME'}
+        newpair[0]['pairAddress']='0x'+'d'*40
+        gecko={'data':[{'relationships':{'base_token':{'data':{'id':'bsc_'+newcomer,'type':'token'}}}}],
+               'included':[{'id':'bsc_'+newcomer,'type':'token','attributes':{
+                   'address':newcomer,'name':'New GameFi Arena','symbol':'GAME'}}]}
+        responses={'token-profiles/latest':[],
+                   'latest/dex/search':{'pairs':[]},
+                   '/new_pools?include=base_token':gecko,
+                   '/trending_pools?include=base_token':{'data':[],'included':[]},
+                   'token-pairs/v1/bsc/'+newcomer:newpair,
+                   'token_security/56':SECURITY,
+                   '/tokens/'+newcomer+'/info':URLError('not indexed')}
+        saved,code=self.simulate(responses)
+        self.assertEqual(code,0)
+        self.assertEqual(len(saved[0]['candidates']),1)
+        self.assertEqual(saved[0]['candidates'][0]['sectors'],['Gaming'])
+        self.assertEqual(saved[0]['candidates'][0]['decision'],'SKIP')
+        self.assertEqual(saved[0]['geckoterminal_discovery_leads'],1)
+
+    def test_gecko_pool_with_wrong_chain_identity_is_not_discovered(self):
+        address='0x'+'c'*40
+        bad={'data':[{'relationships':{'base_token':{'data':{'id':'eth_'+address,'type':'token'}}}}],
+             'included':[{'id':'eth_'+address,'type':'token','attributes':{
+                 'address':address,'name':'New Meme','symbol':'MEME'}}]}
+        saved,code=self.simulate({'token-profiles/latest':[],
+           'latest/dex/search':{'pairs':[]},
+           '/new_pools?include=base_token':bad,
+           '/trending_pools?include=base_token':{'data':[],'included':[]}})
+        self.assertEqual(code,0)
+        self.assertEqual(saved[0]['candidates'],[])
+
     def test_profile_api_failure_preserves_previous_data(self):
         saved,code=self.simulate({'token-profiles/latest':URLError('offline')})
         self.assertNotEqual(code,0)
