@@ -36,7 +36,7 @@ class ScenarioAuditTests(unittest.TestCase):
         outcome=process(snap(due,price=1.2),pending,due)
         self.assertEqual(outcome['summary']['evaluated'],3)
         self.assertEqual(outcome['summary']['inside_range'],3)
-        self.assertEqual(outcome['summary']['pending'],3)
+        self.assertEqual(outcome['summary']['pending'],9)  # Monday issues a fresh weekly cohort
 
     def test_missing_outcome_marked_missed_not_invented(self):
         first=process(snap(),{'records':[]},DATE)
