@@ -1,0 +1,15 @@
+{
+  "updated_at": null,
+  "source": "Forward-only scenario evaluation awaits first successful price-update job",
+  "method": "Forward-only illustrative ranges; not calibrated probability forecasts",
+  "records": [],
+  "summary": {
+    "issued": 0,
+    "pending": 0,
+    "evaluated": 0,
+    "inside_range": 0,
+    "missed": 0,
+    "coverage_of_evaluated_pct": null
+  },
+  "note": "No outcomes exist yet. Audits mature only after 30/90 days. No trades."
+}
