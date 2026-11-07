@@ -106,6 +106,25 @@ for group,terms in SECTOR_SEARCHES.items():
                 add_lead(address,{'description':term,'chainId':'bsc','tokenAddress':address},labels)
         except Exception as exc:
             search_errors.append(term+': '+type(exc).__name__)
+# Extra DexScreener stream: boosted lists are PROMOTIONAL and carry no safety endorsement.
+# Their value is additional contract leads; never treat boost activity as organic quality.
+boost_leads=0
+boost_errors=[]
+for kind in ('latest','top'):
+    try:
+        feed=get('https://api.dexscreener.com/token-boosts/'+kind+'/v1')
+        if not isinstance(feed,list):raise ValueError('Invalid boosted-token feed')
+        for record in feed:
+            if not isinstance(record,dict) or record.get('chainId')!='bsc':continue
+            address=norm(record.get('tokenAddress'))
+            labels=sectors_for(str(record.get('description') or ''))
+            if add_lead(address,{'chainId':'bsc','tokenAddress':address,
+                                 'description':record.get('description',''),
+                                 'discovery_source':'DexScreener boosted/promotional'},labels):
+                boost_leads+=1
+    except Exception as exc:
+        boost_errors.append(kind+': '+type(exc).__name__)
+
 # Independent discovery stream: GeckoTerminal BSC new and trending pools.
 # Pool listings are only leads, not identity/security validation.
 gecko_leads=0
@@ -141,6 +160,7 @@ if not selected:
             'screened_bsc_profiles':0,'candidates':[], 'successful_scans':recent_successes(0,0), 'coverage':'No BNB results from available public feeds',
             'search_errors':search_errors,'search_checks_by_sector':search_checks,
             'geckoterminal_discovery_leads':gecko_leads,'geckoterminal_discovery_errors':gecko_errors,
+            'dex_boost_leads':boost_leads,'dex_boost_errors':boost_errors,
             'note':'No candidates found from sampled public feeds; not a complete market census. SKIP.'}
     DEST.parent.mkdir(parents=True,exist_ok=True)
     DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -270,10 +290,11 @@ result={'updated_at':now.isoformat(),'source':'DexScreener searches and pair dat
         'successful_scans':recent_successes(min(len(out),60),len(selected)),
         'search_errors':search_errors,'search_checks_by_sector':search_checks,
         'sector_results_before_display_limit':sector_results,
+        'dex_boost_leads':boost_leads,'dex_boost_errors':boost_errors,
         'geckoterminal_discovery_leads':gecko_leads,
         'geckoterminal_discovery_errors':gecko_errors,
-        'coverage':'DexScreener thematic search plus GeckoTerminal BSC new/trending pools; pair data checked on DexScreener, not exhaustive',
-        'note':'All candidates are unverified and SKIP. GeckoTerminal indexing does not confirm project legitimacy. Screening can miss projects; no complete audit.'}
+        'coverage':'DexScreener thematic searches and promotional boosts plus GeckoTerminal BSC new/trending pools (may be unavailable). Pair data checked on DexScreener; not exhaustive',
+        'note':'All candidates are unverified and SKIP. Boosts are paid promotion, not endorsement. GeckoTerminal indexing does not confirm project legitimacy. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
 DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print('Scanned',len(selected),'BNB profiles, found',len(out),'unverified multi-sector candidates')
