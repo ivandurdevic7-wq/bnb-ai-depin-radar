@@ -236,6 +236,7 @@ for address,profile in selected:
                     'dex_url':pair.get('url'),'liquidity_usd':liquidity,'volume_24h_usd':volume,
                     'market_cap_usd':cap,'pair_age_days':age_days,'discovered_at':now.isoformat(),
                     'sectors':sectors,'sector_classification':'KEYWORD_HEURISTIC_UNVERIFIED',
+                    'discovery_source':profile.get('discovery_source','DexScreener search/profile'),
                     'liquidity_to_market_cap':round(liquidity/cap,4) if cap and cap>0 else None,
                     'volume_to_liquidity':round(volume/liquidity,4) if liquidity>0 else None,
                     'security':risk,'project_verified':False,'lp_lock_verified':False,
@@ -284,12 +285,13 @@ for token in out[:6]:
     time.sleep(6.5)
 
 sector_results={sector:sum(sector in t['sectors'] for t in out) for sector in SECTOR_RULES}
+source_yield={source:sum(t['discovery_source']==source for t in out) for source in ('DexScreener search/profile','DexScreener boosted/promotional','GeckoTerminal')}
 
 result={'updated_at':now.isoformat(),'source':'DexScreener searches and pair data; GeckoTerminal new/trending BSC pools and limited identity cross-check; optional GoPlus',
         'screened_bsc_profiles':len(selected),'candidates':out[:60], 'search_terms':list(search_terms),
         'successful_scans':recent_successes(min(len(out),60),len(selected)),
         'search_errors':search_errors,'search_checks_by_sector':search_checks,
-        'sector_results_before_display_limit':sector_results,
+        'sector_results_before_display_limit':sector_results,'source_yield':source_yield,
         'dex_boost_leads':boost_leads,'dex_boost_errors':boost_errors,
         'geckoterminal_discovery_leads':gecko_leads,
         'geckoterminal_discovery_errors':gecko_errors,
