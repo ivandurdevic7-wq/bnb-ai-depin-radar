@@ -70,6 +70,12 @@ function discovery(){
   const tags=Array.isArray(t.sectors)?t.sectors.filter(x=>sectors.includes(x)):[];
   label.textContent='Sektori (heuristika, NEPROVJERENO): '+(tags.length?tags.join(' · '):'Neodređeno / prethodna snimka')+' · Identitet projekta: NEPROVJEREN'+(t.identity_evidence?.base_address_matches_contract?' · BNB adresa para podudara se s ugovorom':' · Podudaranje ugovora: nepotvrđeno');
   row.append(label);
+  const second=document.createElement('div');second.className='v2note';
+  const cross=t.secondary_source||{};
+  const state=cross.status||'NOT_CHECKED';
+  second.textContent='GeckoTerminal (drugi izvor): '+(state==='MATCH'?'podudara se ugovor, naziv i simbol; legitimnost NEPROVJERENA':state==='MISMATCH'?'NEPODUDARANJE podataka — OPREZ / SKIP':state==='UNAVAILABLE'?'nedostupan — NEPROVJERENO':state==='NO_DATA'?'nema podataka — NEPROVJERENO':'nije provjeren — NEPROVJERENO');
+  if(state==='MISMATCH')second.classList.add('v2bad');
+  row.append(second);
   const detail=document.createElement('div');detail.className='v2note';
   const risk=t.security||{};
   detail.textContent='Likvidnost $'+fmt(t.liquidity_usd)+' · Volumen $'+fmt(t.volume_24h_usd)+' · Starost para: '+(finite(t.pair_age_days)?t.pair_age_days+' dana':'nepoznata')+' · GoPlus: '+(risk.checked?(risk.flags?.length?'rizici: '+risk.flags.join(', '):'samo odabrana polja bez upozorenja'):'nepotpun/bez podataka')+' · 10 prijavljenih novčanika: '+(finite(risk.top10_reported_wallets_pct)?risk.top10_reported_wallets_pct.toFixed(1)+'%':'nepoznato')+' · LP lock: neprovjeren · Prodajnost: '+(risk.sellability==='HIGH_RISK'?'RIZIČNO':'neprovjerena')+' · SKIP';
