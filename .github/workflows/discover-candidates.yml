@@ -30,9 +30,20 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Refresh the working copy first; a previous scan may have updated the same JSON.
+          git fetch origin main
           git add data/candidates.json
           if ! git diff --cached --quiet; then
             git commit -m 'Refresh BNB discovery candidates'
-            git pull --rebase origin main
+            if ! git pull --rebase origin main; then
+              # Never force-push a conflicted or stale discovery file.
+              git rebase --abort || true
+              git reset --hard origin/main
+              python scripts/discover_candidates.py
+              git add data/candidates.json
+              if ! git diff --cached --quiet; then
+                git commit -m 'Refresh BNB discovery candidates after conflict'
+              fi
+            fi
             git push origin main
           fi
