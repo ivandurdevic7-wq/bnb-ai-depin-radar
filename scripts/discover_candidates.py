@@ -120,7 +120,10 @@ for kind in ('new_pools','trending_pools'):
         for pool in response.get('data',[]) if isinstance(response,dict) else []:
             if not isinstance(pool,dict):continue
             relationship=((pool.get('relationships') or {}).get('base_token') or {}).get('data') or {}
-            token=included.get(relationship.get('id'),{})
+            rel_id=relationship.get('id')
+            if not isinstance(rel_id,str) or not rel_id.lower().startswith('bsc_'):
+                continue
+            token=included.get(rel_id,{})
             address=norm(token.get('address'))
             if not address and isinstance(relationship.get('id'),str) and relationship['id'].lower().startswith('bsc_'):
                 address=norm(relationship['id'][4:])
