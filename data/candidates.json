@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-07T13:27:30.785906+00:00",
+  "updated_at": "2026-11-07T15:22:50.258309+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
-  "screened_bsc_profiles": 11,
+  "screened_bsc_profiles": 15,
   "candidates": [
     {
       "name": "bInference",
@@ -10,13 +10,17 @@
       "contract": "0x9862d6478cb8098645815ff27f91efbc659f7777",
       "pair": "0x25EE4Fa4BFf5363d47496e68377B1241E8E21a47",
       "dex_url": "https://dexscreener.com/bsc/0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
-      "liquidity_usd": 41357.31,
-      "volume_24h_usd": 16814.29,
-      "market_cap_usd": 167575.0,
-      "pair_age_days": 37.8,
-      "discovered_at": "2026-11-07T13:27:30.785906+00:00",
-      "liquidity_to_market_cap": 0.2468,
-      "volume_to_liquidity": 0.4066,
+      "liquidity_usd": 38557.59,
+      "volume_24h_usd": 17860.3,
+      "market_cap_usd": 145811.0,
+      "pair_age_days": 37.9,
+      "discovered_at": "2026-11-07T15:22:50.258309+00:00",
+      "sectors": [
+        "AI / DePIN"
+      ],
+      "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
+      "liquidity_to_market_cap": 0.2644,
+      "volume_to_liquidity": 0.4632,
       "security": {
         "source": "GoPlus",
         "checked": false,
@@ -25,10 +29,53 @@
         ],
         "flags": [],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 43.76,
+        "top10_reported_wallets_pct": 44.21,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "PARTIAL_CHECK"
+      },
+      "project_verified": false,
+      "lp_lock_verified": false,
+      "holders_verified": false,
+      "sellability_verified": false,
+      "unlock_verified": false,
+      "decision": "SKIP",
+      "reason": "Incomplete independent security/product verification"
+    },
+    {
+      "name": "Liquid Staking BNB",
+      "symbol": "BNBx",
+      "chain": "bsc",
+      "contract": "0x1bdd3cf7f79cfb8edbb955f20ad99211551ba275",
+      "pair": "0xf2A4e4261FCDfBB891BCF703640Fbe713c6cD0fE",
+      "dex_url": "https://dexscreener.com/bsc/0xf2a4e4261fcdfbb891bcf703640fbe713c6cd0fe",
+      "liquidity_usd": 37884.23,
+      "volume_24h_usd": 7767.92,
+      "market_cap_usd": 1981439.0,
+      "pair_age_days": null,
+      "discovered_at": "2026-11-07T15:22:50.258309+00:00",
+      "sectors": [
+        "DeFi"
+      ],
+      "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
+      "liquidity_to_market_cap": 0.0191,
+      "volume_to_liquidity": 0.205,
+      "security": {
+        "source": "GoPlus",
+        "checked": false,
+        "missing_fields": [
+          "is_honeypot",
+          "is_mintable",
+          "hidden_owner"
+        ],
+        "flags": [
+          "is_proxy"
+        ],
+        "sellability": "UNVERIFIED",
+        "top10_reported_wallets_pct": null,
+        "top10_is_beneficial_ownership": false,
+        "lp_lock_status": "UNVERIFIED",
+        "status": "FLAGS"
       },
       "project_verified": false,
       "lp_lock_verified": false,
@@ -46,7 +93,17 @@
     "compute",
     "GPU",
     "robot",
-    "inference"
+    "inference",
+    "DeFi",
+    "swap",
+    "staking",
+    "RWA",
+    "tokenized",
+    "GameFi",
+    "gaming",
+    "oracle",
+    "bridge",
+    "meme"
   ],
   "successful_scans": [
     {
@@ -68,9 +125,14 @@
       "at": "2026-11-07T13:27:30.785906+00:00",
       "candidates": 1,
       "screened": 11
+    },
+    {
+      "at": "2026-11-07T15:22:50.258309+00:00",
+      "candidates": 2,
+      "screened": 15
     }
   ],
   "search_errors": [],
-  "coverage": "Sampled latest DexScreener profiles and seven searches; not exhaustive",
+  "coverage": "Sampled latest DexScreener profiles and thematic searches; not exhaustive",
   "note": "All candidates are unverified and SKIP. Screening can miss projects; no complete audit."
 }
