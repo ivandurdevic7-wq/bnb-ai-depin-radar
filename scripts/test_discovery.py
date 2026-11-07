@@ -72,6 +72,23 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(code,0)
         self.assertEqual(saved[0]['candidates'],[])
 
+    def test_promotional_boost_is_only_a_lead_and_stays_skip(self):
+        boosts=[{'chainId':'bsc','tokenAddress':ADDR,'description':'AI token promotion'}]
+        saved,code=self.simulate({
+            'token-profiles/latest':[],
+            'latest/dex/search':{'pairs':[]},
+            'token-boosts/':boosts,
+            '/new_pools?include=base_token':{'data':[],'included':[]},
+            '/trending_pools?include=base_token':{'data':[],'included':[]},
+            'token-pairs/v1/bsc/':PAIR_RESPONSE,
+            'token_security/56':SECURITY,
+            'geckoterminal.com/api/v2/networks/bsc/tokens/':URLError('offline')})
+        self.assertEqual(code,0)
+        self.assertEqual(saved[0]['dex_boost_leads'],1)
+        self.assertEqual(len(saved[0]['candidates']),1)
+        self.assertEqual(saved[0]['candidates'][0]['decision'],'SKIP')
+        self.assertFalse(saved[0]['candidates'][0]['project_verified'])
+
     def test_profile_api_failure_preserves_previous_data(self):
         saved,code=self.simulate({'token-profiles/latest':URLError('offline')})
         self.assertNotEqual(code,0)
