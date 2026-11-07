@@ -55,6 +55,18 @@ except Exception as exc:
     print('Token discovery unavailable; previous snapshot preserved:',exc,file=sys.stderr)
     sys.exit(1)
 
+# Balanced thematic queries. Category must still match the verified BNB pair token name.
+SECTOR_SEARCHES = {
+    'AI / DePIN': ('AI','DePIN','agent','compute','inference'),
+    'DeFi': ('DeFi','swap','staking','lending','yield'),
+    'RWA': ('RWA','tokenized','treasury'),
+    'Gaming': ('GameFi','gaming','play to earn'),
+    'Infrastructure': ('oracle','interoperability','bridge'),
+    'Meme': ('meme','doge','pepe'),
+}
+search_terms=tuple(term for group in SECTOR_SEARCHES.values() for term in group)
+MAX_SELECTED=96
+MAX_PER_SECTOR=16
 selected=[]
 seen=set()
 sector_counts={name:0 for name in SECTOR_RULES}
@@ -75,7 +87,8 @@ for p in profiles:
     if not isinstance(p,dict) or p.get('chainId')!='bsc':continue
     address=norm(p.get('tokenAddress'))
     # Only use actual token name or symbol for category claims, not marketing text.
-    labels=sectors_for(str(p.get('tokenName',''))+' '+str(p.get('tokenSymbol','')))
+    labels=sectors_for(str(p.get('tokenName',''))+' '+str(p.get('tokenSymbol',''))+' '+str(p.get('description','')))
+    # Description may seed a lead but never determines the published sector label.
     if labels:add_lead(address,p,labels)
 
 # Run every sector's searches, even if another sector has more leads.
