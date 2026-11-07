@@ -45,6 +45,15 @@ class ScenarioAuditTests(unittest.TestCase):
         self.assertEqual(r['summary']['missed'],3)
         self.assertEqual(r['summary']['evaluated'],0)
 
+    def test_runner_clock_cannot_evaluate_early_market_snapshot(self):
+        first=process(snap(),{'records':[]},DATE)
+        due=DATE+timedelta(days=30)
+        observed=due-timedelta(minutes=10)
+        run_at=due+timedelta(minutes=2)
+        result=process(snap(observed,price=2),first,run_at)
+        self.assertEqual(result['summary']['evaluated'],0)
+        self.assertEqual(result['summary']['pending'],6)
+
     def test_stale_price_rejected(self):
         with self.assertRaises(ValueError):
             process(snap(DATE-timedelta(hours=8)),{'records':[]},DATE)
