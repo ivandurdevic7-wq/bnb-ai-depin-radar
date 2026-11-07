@@ -1,26 +1,33 @@
 {
-  "updated_at": "2026-11-07T15:25:36.031735+00:00",
+  "updated_at": "2026-11-07T15:27:26.295359+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
-  "screened_bsc_profiles": 34,
+  "screened_bsc_profiles": 32,
   "candidates": [
     {
       "name": "bInference",
       "symbol": "BINF",
       "chain": "bsc",
       "contract": "0x9862d6478cb8098645815ff27f91efbc659f7777",
-      "pair": "0x25EE4Fa4BFf5363d47496e68377B1241E8E21a47",
+      "pair": "0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
+      "identity_evidence": {
+        "source": "DexScreener pair",
+        "chain": "bsc",
+        "base_address_matches_contract": true,
+        "pair_address_present": true,
+        "independent_project_identity_verified": false
+      },
       "dex_url": "https://dexscreener.com/bsc/0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
-      "liquidity_usd": 38557.59,
-      "volume_24h_usd": 17790.78,
-      "market_cap_usd": 145811.0,
+      "liquidity_usd": 38795.41,
+      "volume_24h_usd": 17807.81,
+      "market_cap_usd": 147496.0,
       "pair_age_days": 37.9,
-      "discovered_at": "2026-11-07T15:25:36.031735+00:00",
+      "discovered_at": "2026-11-07T15:27:26.295359+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
-      "liquidity_to_market_cap": 0.2644,
-      "volume_to_liquidity": 0.4614,
+      "liquidity_to_market_cap": 0.263,
+      "volume_to_liquidity": 0.459,
       "security": {
         "source": "GoPlus",
         "checked": false,
@@ -47,13 +54,20 @@
       "symbol": "BNBx",
       "chain": "bsc",
       "contract": "0x1bdd3cf7f79cfb8edbb955f20ad99211551ba275",
-      "pair": "0xf2A4e4261FCDfBB891BCF703640Fbe713c6cD0fE",
+      "pair": "0xf2a4e4261fcdfbb891bcf703640fbe713c6cd0fe",
+      "identity_evidence": {
+        "source": "DexScreener pair",
+        "chain": "bsc",
+        "base_address_matches_contract": true,
+        "pair_address_present": true,
+        "independent_project_identity_verified": false
+      },
       "dex_url": "https://dexscreener.com/bsc/0xf2a4e4261fcdfbb891bcf703640fbe713c6cd0fe",
       "liquidity_usd": 37884.23,
       "volume_24h_usd": 7767.92,
       "market_cap_usd": 1981439.0,
       "pair_age_days": null,
-      "discovered_at": "2026-11-07T15:25:36.031735+00:00",
+      "discovered_at": "2026-11-07T15:27:26.295359+00:00",
       "sectors": [
         "DeFi"
       ],
@@ -140,6 +154,11 @@
       "at": "2026-11-07T15:25:36.031735+00:00",
       "candidates": 2,
       "screened": 34
+    },
+    {
+      "at": "2026-11-07T15:27:26.295359+00:00",
+      "candidates": 2,
+      "screened": 32
     }
   ],
   "search_errors": [],
@@ -150,6 +169,14 @@
     "Gaming": 3,
     "Infrastructure": 3,
     "Meme": 3
+  },
+  "sector_results_before_display_limit": {
+    "AI / DePIN": 1,
+    "DeFi": 1,
+    "RWA": 0,
+    "Gaming": 0,
+    "Infrastructure": 0,
+    "Meme": 0
   },
   "coverage": "Sector-specific sampled public DEX searches, not complete sector coverage",
   "note": "All candidates are unverified and SKIP. Screening can miss projects; no complete audit."
