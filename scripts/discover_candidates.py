@@ -106,10 +106,38 @@ for group,terms in SECTOR_SEARCHES.items():
                 add_lead(address,{'description':term,'chainId':'bsc','tokenAddress':address},labels)
         except Exception as exc:
             search_errors.append(term+': '+type(exc).__name__)
+# Independent discovery stream: GeckoTerminal BSC new and trending pools.
+# Pool listings are only leads, not identity/security validation.
+gecko_leads=0
+gecko_errors=[]
+for kind in ('new_pools','trending_pools'):
+    try:
+        response=get('https://api.geckoterminal.com/api/v2/networks/bsc/'+kind+'?include=base_token')
+        included={}
+        for record in response.get('included',[]):
+            if isinstance(record,dict) and record.get('type')=='token':
+                included[record.get('id')]=record.get('attributes') or {}
+        for pool in response.get('data',[]):
+            if not isinstance(pool,dict):continue
+            relationship=((pool.get('relationships') or {}).get('base_token') or {}).get('data') or {}
+            token=included.get(relationship.get('id'),{})
+            address=norm(token.get('address'))
+            if not address and isinstance(relationship.get('id'),str) and relationship['id'].lower().startswith('bsc_'):
+                address=norm(relationship['id'][4:])
+            name=token.get('name','')
+            symbol=token.get('symbol','')
+            labels=sectors_for(str(name)+' '+str(symbol))
+            if add_lead(address,{'description':kind,'chainId':'bsc','tokenAddress':address,'discovery_source':'GeckoTerminal'},labels):
+                gecko_leads+=1
+    except Exception as exc:
+        gecko_errors.append(kind+': '+type(exc).__name__)
+    time.sleep(6.5)
+
 if not selected:
     result={'updated_at':now.isoformat(),'source':'DexScreener profiles and search',
             'screened_bsc_profiles':0,'candidates':[], 'successful_scans':recent_successes(0,0), 'coverage':'No BNB results from available public feeds',
             'search_errors':search_errors,'search_checks_by_sector':search_checks,
+            'geckoterminal_discovery_leads':gecko_leads,'geckoterminal_discovery_errors':gecko_errors,
             'note':'No candidates found from sampled public feeds; not a complete market census. SKIP.'}
     DEST.parent.mkdir(parents=True,exist_ok=True)
     DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
