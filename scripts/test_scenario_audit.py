@@ -52,7 +52,7 @@ class ScenarioAuditTests(unittest.TestCase):
         run_at=due+timedelta(minutes=2)
         result=process(snap(observed,price=2),first,run_at)
         self.assertEqual(result['summary']['evaluated'],0)
-        self.assertEqual(result['summary']['pending'],6)
+        self.assertEqual(result['summary']['pending'],12)  # Six original + six newly issued Monday
 
     def test_stale_price_rejected(self):
         with self.assertRaises(ValueError):
