@@ -14,12 +14,12 @@ UA = {'Accept':'application/json', 'User-Agent':'BNB-AI-DePIN-Radar/3.0'}
 now = datetime.now(timezone.utc)
 # Candidate sectors are thematic labels inferred from public pair names, NOT verified business classifications.
 SECTOR_RULES = {
-    'AI / DePIN': re.compile(r'(?i)(?:\\bai\\b|agent|depin|compute|robot|inference|neural|\\bgpu\\b|artificial intelligence|machine learning|\\biot\\b|sensor)'),
-    'DeFi': re.compile(r'(?i)(?:\\bdefi\\b|\\bdex\\b|swap|staking|liquid staking|yield|lending|borrow|liquidity protocol)'),
-    'RWA': re.compile(r'(?i)(?:\\brwa\\b|tokenized real|real.world asset|tokenized treasury|asset tokenization)'),
-    'Gaming': re.compile(r'(?i)(?:\\bgamefi\\b|\\bgaming\\b|\\bgame\\b|play.to.earn|\\bp2e\\b|\\bguild\\b)'),
-    'Infrastructure': re.compile(r'(?i)(?:\\boracle\\b|cross.chain|interoperab|\\bbridge\\b|\\brollup\\b|\\blayer.?2\\b|\\bindexer\\b)'),
-    'Meme': re.compile(r'(?i)(?:\\bmeme\\b|\\bmemecoin\\b|\\bdoge\\b|\\bpepe\\b|\\bshib\\b|\\binu\\b)'),
+    'AI / DePIN': re.compile(r'(?i)(?:\bai\b|agent|depin|compute|robot|inference|neural|\bgpu\b|artificial intelligence|machine learning|\biot\b|sensor)'),
+    'DeFi': re.compile(r'(?i)(?:\bdefi\b|\bdex\b|swap|staking|liquid staking|yield|lending|borrow|liquidity protocol)'),
+    'RWA': re.compile(r'(?i)(?:\brwa\b|tokenized real|real.world asset|tokenized treasury|asset tokenization)'),
+    'Gaming': re.compile(r'(?i)(?:\bgamefi\b|\bgaming\b|\bgame\b|play.to.earn|\bp2e\b|\bguild\b)'),
+    'Infrastructure': re.compile(r'(?i)(?:\boracle\b|cross.chain|interoperab|\bbridge\b|\brollup\b|\blayer.?2\b|\bindexer\b)'),
+    'Meme': re.compile(r'(?i)(?:\bmeme\b|\bmemecoin\b|\bdoge\b|\bpepe\b|\bshib\b|\binu\b)'),
 }
 def sectors_for(text):
     return [name for name,pattern in SECTOR_RULES.items() if pattern.search(str(text))]
@@ -57,36 +57,46 @@ except Exception as exc:
 
 selected=[]
 seen=set()
-for p in profiles:
-    if not isinstance(p,dict) or p.get('chainId') != 'bsc':continue
-    address=norm(p.get('tokenAddress'))
-    if address is None or address in seen:continue
-    seen.add(address)
-    selected.append((address,p))
-    if len(selected)>=40:break
-# Always broaden coverage beyond the latest promotional profiles.
-# Search results are discovered leads, not independent evidence of legitimacy.
-search_terms=('AI','DePIN','agent','compute','GPU','robot','inference','DeFi','swap','staking','RWA','tokenized','GameFi','gaming','oracle','bridge','meme')
+sector_counts={name:0 for name in SECTOR_RULES}
 search_errors=[]
-for term in search_terms:
-    try:
-        response=get('https://api.dexscreener.com/latest/dex/search?q='+quote(term))
-        for pair in response.get('pairs',[]):
-            if not isinstance(pair,dict) or pair.get('chainId')!='bsc':continue
-            base=pair.get('baseToken') or {}
-            address=norm(base.get('address'))
-            if not address or address in seen:continue
-            if not keywords.search(str(base.get('name',''))+' '+str(base.get('symbol',''))):continue
-            selected.append((address,{'description':term,'chainId':'bsc','tokenAddress':address}))
-            seen.add(address)
-            if len(selected)>=180:break
-        if len(selected)>=180:break
-    except Exception as exc:
-        search_errors.append(term+': '+type(exc).__name__)
+search_checks={name:0 for name in SECTOR_RULES}
+def add_lead(address,meta,sector_labels):
+    if address is None or address in seen or len(selected)>=MAX_SELECTED or not sector_labels:
+        return False
+    # Prevent the busiest sector from using all available pair-check requests.
+    allowed=[label for label in sector_labels if sector_counts[label]<MAX_PER_SECTOR]
+    if not allowed:return False
+    seen.add(address)
+    selected.append((address,meta))
+    for label in allowed:sector_counts[label]+=1
+    return True
+
+for p in profiles:
+    if not isinstance(p,dict) or p.get('chainId')!='bsc':continue
+    address=norm(p.get('tokenAddress'))
+    # Only use actual token name or symbol for category claims, not marketing text.
+    labels=sectors_for(str(p.get('tokenName',''))+' '+str(p.get('tokenSymbol','')))
+    if labels:add_lead(address,p,labels)
+
+# Run every sector's searches, even if another sector has more leads.
+# A search result is not a verified project; confirm pair address, chain and name later.
+for group,terms in SECTOR_SEARCHES.items():
+    for term in terms:
+        try:
+            response=get('https://api.dexscreener.com/latest/dex/search?q='+quote(term))
+            search_checks[group]+=1
+            for pair in response.get('pairs',[]):
+                if not isinstance(pair,dict) or pair.get('chainId')!='bsc':continue
+                base=pair.get('baseToken') or {}
+                address=norm(base.get('address'))
+                labels=sectors_for(str(base.get('name',''))+' '+str(base.get('symbol','')))
+                add_lead(address,{'description':term,'chainId':'bsc','tokenAddress':address},labels)
+        except Exception as exc:
+            search_errors.append(term+': '+type(exc).__name__)
 if not selected:
     result={'updated_at':now.isoformat(),'source':'DexScreener profiles and search',
             'screened_bsc_profiles':0,'candidates':[], 'successful_scans':recent_successes(0,0), 'coverage':'No BNB results from available public feeds',
-            'search_errors':search_errors,
+            'search_errors':search_errors,'search_checks_by_sector':search_checks,
             'note':'No candidates found from sampled public feeds; not a complete market census. SKIP.'}
     DEST.parent.mkdir(parents=True,exist_ok=True)
     DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -170,10 +180,10 @@ for address,profile in selected:
     time.sleep(.12)
 out.sort(key=lambda t:(t['security']['checked'], t['liquidity_usd']),reverse=True)
 result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles + pool data; optional GoPlus',
-        'screened_bsc_profiles':len(selected),'candidates':out[:30], 'search_terms':list(search_terms),
-        'successful_scans':recent_successes(min(len(out),30),len(selected)),
-        'search_errors':search_errors,
-        'coverage':'Sampled latest DexScreener profiles and thematic searches; not exhaustive',
+        'screened_bsc_profiles':len(selected),'candidates':out[:60], 'search_terms':list(search_terms),
+        'successful_scans':recent_successes(min(len(out),60),len(selected)),
+        'search_errors':search_errors,'search_checks_by_sector':search_checks,
+        'coverage':'Sector-specific sampled public DEX searches, not complete sector coverage',
         'note':'All candidates are unverified and SKIP. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
 DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
