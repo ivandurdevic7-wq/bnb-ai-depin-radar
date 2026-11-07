@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-07T15:27:26.295359+00:00",
+  "updated_at": "2026-11-07T15:27:48.901493+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
-  "screened_bsc_profiles": 32,
+  "screened_bsc_profiles": 33,
   "candidates": [
     {
       "name": "bInference",
@@ -21,7 +21,7 @@
       "volume_24h_usd": 17807.81,
       "market_cap_usd": 147496.0,
       "pair_age_days": 37.9,
-      "discovered_at": "2026-11-07T15:27:26.295359+00:00",
+      "discovered_at": "2026-11-07T15:27:48.901493+00:00",
       "sectors": [
         "AI / DePIN"
       ],
@@ -67,7 +67,7 @@
       "volume_24h_usd": 7767.92,
       "market_cap_usd": 1981439.0,
       "pair_age_days": null,
-      "discovered_at": "2026-11-07T15:27:26.295359+00:00",
+      "discovered_at": "2026-11-07T15:27:48.901493+00:00",
       "sectors": [
         "DeFi"
       ],
@@ -159,6 +159,11 @@
       "at": "2026-11-07T15:27:26.295359+00:00",
       "candidates": 2,
       "screened": 32
+    },
+    {
+      "at": "2026-11-07T15:27:48.901493+00:00",
+      "candidates": 2,
+      "screened": 33
     }
   ],
   "search_errors": [],
