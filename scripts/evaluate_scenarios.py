@@ -56,7 +56,7 @@ def process(snapshot, archive, now):
         row=dict(original)
         if row.get('status')=='PENDING':
             due=issued+timedelta(days=horizon)
-            if now>=due and now<=due+OBSERVE_WINDOW:
+            if stamp>=due and stamp<=due+OBSERVE_WINDOW:
                 actual=market.get(ident,{}).get('current_price')
                 if number(actual):
                     lower=row.get('lower_usd')
@@ -68,7 +68,7 @@ def process(snapshot, archive, now):
                         row['actual_usd']=actual
                         row['in_range']=lower<=actual<=upper
                         row['realized_return_pct']=round((actual/start-1)*100,3)
-            elif now>due+OBSERVE_WINDOW:
+            elif stamp>due+OBSERVE_WINDOW:
                 row['status']='MISSED'
                 row['note']='No timely market observation in due window'
         records.append(row)
