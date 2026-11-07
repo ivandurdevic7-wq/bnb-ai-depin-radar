@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-07T15:27:48.901493+00:00",
+  "updated_at": "2026-11-07T15:29:48.684617+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
-  "screened_bsc_profiles": 33,
+  "screened_bsc_profiles": 32,
   "candidates": [
     {
       "name": "bInference",
@@ -21,7 +21,7 @@
       "volume_24h_usd": 17807.81,
       "market_cap_usd": 147496.0,
       "pair_age_days": 37.9,
-      "discovered_at": "2026-11-07T15:27:48.901493+00:00",
+      "discovered_at": "2026-11-07T15:29:48.684617+00:00",
       "sectors": [
         "AI / DePIN"
       ],
@@ -47,7 +47,16 @@
       "sellability_verified": false,
       "unlock_verified": false,
       "decision": "SKIP",
-      "reason": "Incomplete independent security/product verification"
+      "reason": "Incomplete independent security/product verification",
+      "secondary_source": {
+        "provider": "GeckoTerminal",
+        "status": "MATCH",
+        "checked": true,
+        "address_match": true,
+        "name_match": true,
+        "symbol_match": true,
+        "project_verified": false
+      }
     },
     {
       "name": "Liquid Staking BNB",
@@ -67,7 +76,7 @@
       "volume_24h_usd": 7767.92,
       "market_cap_usd": 1981439.0,
       "pair_age_days": null,
-      "discovered_at": "2026-11-07T15:27:48.901493+00:00",
+      "discovered_at": "2026-11-07T15:29:48.684617+00:00",
       "sectors": [
         "DeFi"
       ],
@@ -97,7 +106,16 @@
       "sellability_verified": false,
       "unlock_verified": false,
       "decision": "SKIP",
-      "reason": "Incomplete independent security/product verification"
+      "reason": "Incomplete independent security/product verification",
+      "secondary_source": {
+        "provider": "GeckoTerminal",
+        "status": "MATCH",
+        "checked": true,
+        "address_match": true,
+        "name_match": true,
+        "symbol_match": true,
+        "project_verified": false
+      }
     }
   ],
   "search_terms": [
@@ -164,6 +182,11 @@
       "at": "2026-11-07T15:27:48.901493+00:00",
       "candidates": 2,
       "screened": 33
+    },
+    {
+      "at": "2026-11-07T15:29:48.684617+00:00",
+      "candidates": 2,
+      "screened": 32
     }
   ],
   "search_errors": [],
@@ -183,6 +206,6 @@
     "Infrastructure": 0,
     "Meme": 0
   },
-  "coverage": "Sector-specific sampled public DEX searches, not complete sector coverage",
-  "note": "All candidates are unverified and SKIP. Screening can miss projects; no complete audit."
+  "coverage": "Sector-specific sampled public DEX searches; GeckoTerminal second-source checks for up to 6 candidates, not exhaustive",
+  "note": "All candidates are unverified and SKIP. GeckoTerminal indexing does not confirm project legitimacy. Screening can miss projects; no complete audit."
 }
