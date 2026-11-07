@@ -23,7 +23,7 @@ SECTOR_RULES = {
 }
 def sectors_for(text):
     return [name for name,pattern in SECTOR_RULES.items() if pattern.search(str(text))]
-keywords = re.compile('|'.join('(?:'+r.pattern+')' for r in SECTOR_RULES.values()), re.I)
+keywords = re.compile('|'.join('(?:'+r.pattern.replace('(?i)','')+')' for r in SECTOR_RULES.values()), re.I)
 
 def get(url):
     with urlopen(Request(url,headers=UA),timeout=17) as r:
