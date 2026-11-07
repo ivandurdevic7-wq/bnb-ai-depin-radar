@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-07T01:35:17.143680+00:00",
+  "updated_at": "2026-11-07T07:36:47.731537+00:00",
   "source": "DexScreener public token profiles + pool data; optional GoPlus",
-  "screened_bsc_profiles": 16,
+  "screened_bsc_profiles": 5,
   "candidates": [
     {
       "name": "bInference",
@@ -10,13 +10,13 @@
       "contract": "0x9862d6478cb8098645815ff27f91efbc659f7777",
       "pair": "0x25EE4Fa4BFf5363d47496e68377B1241E8E21a47",
       "dex_url": "https://dexscreener.com/bsc/0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
-      "liquidity_usd": 43449.28,
-      "volume_24h_usd": 14317.67,
-      "market_cap_usd": 184815.0,
-      "pair_age_days": 37.3,
-      "discovered_at": "2026-11-07T01:35:17.143680+00:00",
-      "liquidity_to_market_cap": 0.2351,
-      "volume_to_liquidity": 0.3295,
+      "liquidity_usd": 42376.35,
+      "volume_24h_usd": 14668.62,
+      "market_cap_usd": 176633.0,
+      "pair_age_days": 37.6,
+      "discovered_at": "2026-11-07T07:36:47.731537+00:00",
+      "liquidity_to_market_cap": 0.2399,
+      "volume_to_liquidity": 0.3462,
       "security": {
         "source": "GoPlus",
         "checked": false,
@@ -25,7 +25,7 @@
         ],
         "flags": [],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 43.08,
+        "top10_reported_wallets_pct": 43.31,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "PARTIAL_CHECK"
@@ -58,6 +58,11 @@
       "at": "2026-11-07T01:35:17.143680+00:00",
       "candidates": 1,
       "screened": 16
+    },
+    {
+      "at": "2026-11-07T07:36:47.731537+00:00",
+      "candidates": 1,
+      "screened": 5
     }
   ],
   "search_errors": [],
