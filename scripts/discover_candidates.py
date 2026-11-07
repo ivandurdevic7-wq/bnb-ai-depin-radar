@@ -55,7 +55,7 @@ except Exception as exc:
     print('Token discovery unavailable; previous snapshot preserved:',exc,file=sys.stderr)
     sys.exit(1)
 
-# Balanced thematic queries. Category must still match the verified BNB pair token name.
+# Balanced thematic queries. Category must still match the reported BNB pair token name (not independently verified).
 SECTOR_SEARCHES = {
     'AI / DePIN': ('AI','DePIN','agent','compute','inference'),
     'DeFi': ('DeFi','swap','staking','lending','yield'),
@@ -127,8 +127,10 @@ for address,profile in selected:
         pair=max(eligible,key=lambda p:float((p.get('liquidity') or {}).get('usd') or 0))
         name=(pair.get('baseToken') or {}).get('name','')
         symbol=(pair.get('baseToken') or {}).get('symbol','')
-        about=str(profile.get('description') or '')
-        sectors=sectors_for(str(name)+' '+str(symbol))
+        pair_address=norm(pair.get('pairAddress'))
+        if not (isinstance(name,str) and name.strip() and isinstance(symbol,str) and symbol.strip() and pair_address):
+            continue  # Unclear pool/token identity: reject rather than invent it.
+        sectors=sectors_for(name+' '+symbol)
         if not sectors:
             continue  # Search term or promotional profile text alone cannot assert sector identity
         liquidity=float((pair.get('liquidity') or {}).get('usd') or 0)
@@ -179,7 +181,7 @@ for address,profile in selected:
                       'status':'FLAGS' if flags else ('PARTIAL_CHECK' if missing else 'CHECKED_FIELDS_ONLY')}
         except Exception as exc:
             risk['error']=type(exc).__name__
-        out.append({'name':name,'symbol':symbol,'chain':'bsc','contract':address,'pair':pair.get('pairAddress'),
+        out.append({'name':name,'symbol':symbol,'chain':'bsc','contract':address,'pair':pair_address, 'identity_evidence':{'source':'DexScreener pair','chain':'bsc','base_address_matches_contract':True,'pair_address_present':True,'independent_project_identity_verified':False},
                     'dex_url':pair.get('url'),'liquidity_usd':liquidity,'volume_24h_usd':volume,
                     'market_cap_usd':cap,'pair_age_days':age_days,'discovered_at':now.isoformat(),
                     'sectors':sectors,'sector_classification':'KEYWORD_HEURISTIC_UNVERIFIED',
@@ -192,10 +194,13 @@ for address,profile in selected:
         print('Skipped pair',address,type(exc).__name__,file=sys.stderr)
     time.sleep(.12)
 out.sort(key=lambda t:(t['security']['checked'], t['liquidity_usd']),reverse=True)
+sector_results={sector:sum(sector in t['sectors'] for t in out) for sector in SECTOR_RULES}
+
 result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles + pool data; optional GoPlus',
         'screened_bsc_profiles':len(selected),'candidates':out[:60], 'search_terms':list(search_terms),
         'successful_scans':recent_successes(min(len(out),60),len(selected)),
         'search_errors':search_errors,'search_checks_by_sector':search_checks,
+        'sector_results_before_display_limit':sector_results,
         'coverage':'Sector-specific sampled public DEX searches, not complete sector coverage',
         'note':'All candidates are unverified and SKIP. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
