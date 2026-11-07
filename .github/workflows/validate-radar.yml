@@ -20,11 +20,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Integrity and veto checks
-        run: python scripts/validate_radar.py scripts/evaluate_scenarios.py scripts/test_scenario_audit.py
+        run: python scripts/validate_radar.py
       - name: Test forward-only PAPER scenario audit
         run: python -m unittest discover -s scripts -p 'test_scenario_audit.py' -v
       - name: Verify Python syntax
-        run: python -m py_compile scripts/update_prices.py scripts/discover_candidates.py scripts/validate_radar.py
+        run: python -m py_compile scripts/update_prices.py scripts/discover_candidates.py scripts/validate_radar.py scripts/evaluate_scenarios.py scripts/test_scenario_audit.py
       - name: Verify browser JavaScript syntax
         run: |
           python - <<'PY'
