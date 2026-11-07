@@ -194,6 +194,44 @@ for address,profile in selected:
         print('Skipped pair',address,type(exc).__name__,file=sys.stderr)
     time.sleep(.12)
 out.sort(key=lambda t:(t['security']['checked'], t['liquidity_usd']),reverse=True)
+# Secondary provider check is informational only, not a verification of the project.
+# Rate-limit public GeckoTerminal lookups; not all candidates can be checked per scan.
+def gecko_identity(token):
+    address=token['contract']
+    result={'provider':'GeckoTerminal','status':'UNAVAILABLE','checked':False,
+            'address_match':False,'name_match':False,'symbol_match':False,
+            'project_verified':False}
+    try:
+        data=get('https://api.geckoterminal.com/api/v2/networks/bsc/tokens/'+address+'/info')
+        entry=data.get('data') if isinstance(data,dict) else None
+        attrs=entry.get('attributes') if isinstance(entry,dict) else None
+        if not isinstance(attrs,dict):
+            result['status']='NO_DATA'
+            return result
+        remote_address=norm(attrs.get('address'))
+        if remote_address is None:
+            token_id=entry.get('id','')
+            if isinstance(token_id,str) and token_id.lower().startswith('bsc_'):
+                remote_address=norm(token_id[4:])
+        result['checked']=True
+        result['address_match']=remote_address==address
+        result['name_match']=str(attrs.get('name') or '').casefold().strip()==token['name'].casefold().strip()
+        result['symbol_match']=str(attrs.get('symbol') or '').casefold().strip()==token['symbol'].casefold().strip()
+        result['status']='MATCH' if all((result['address_match'],result['name_match'],result['symbol_match'])) else 'MISMATCH'
+        # Indexing or a name match is not proof that a project is legitimate.
+        return result
+    except Exception as exc:
+        result['error']=type(exc).__name__
+        return result
+
+for token in out:
+    token['secondary_source']={'provider':'GeckoTerminal','status':'NOT_CHECKED',
+        'checked':False,'project_verified':False}
+# Check a small limited sample. GeckoTerminal public API is rate-limited.
+for token in out[:6]:
+    token['secondary_source']=gecko_identity(token)
+    time.sleep(6.5)
+
 sector_results={sector:sum(sector in t['sectors'] for t in out) for sector in SECTOR_RULES}
 
 result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles + pool data; optional GoPlus',
@@ -201,8 +239,8 @@ result={'updated_at':now.isoformat(),'source':'DexScreener public token profiles
         'successful_scans':recent_successes(min(len(out),60),len(selected)),
         'search_errors':search_errors,'search_checks_by_sector':search_checks,
         'sector_results_before_display_limit':sector_results,
-        'coverage':'Sector-specific sampled public DEX searches, not complete sector coverage',
-        'note':'All candidates are unverified and SKIP. Screening can miss projects; no complete audit.'}
+        'coverage':'Sector-specific sampled public DEX searches; GeckoTerminal second-source checks for up to 6 candidates, not exhaustive',
+        'note':'All candidates are unverified and SKIP. GeckoTerminal indexing does not confirm project legitimacy. Screening can miss projects; no complete audit.'}
 DEST.parent.mkdir(parents=True,exist_ok=True)
 DEST.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print('Scanned',len(selected),'BNB profiles, found',len(out),'unverified multi-sector candidates')
