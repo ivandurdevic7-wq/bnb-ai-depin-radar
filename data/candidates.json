@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-13T07:49:49.052135+00:00",
+  "updated_at": "2026-11-13T13:44:56.722467+00:00",
   "source": "DexScreener searches and pair data; GeckoTerminal new/trending BSC pools and limited identity cross-check; optional GoPlus",
-  "screened_bsc_profiles": 40,
+  "screened_bsc_profiles": 34,
   "candidates": [
     {
       "name": "JAGENT",
@@ -17,18 +17,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0xe6efcdef2b720d1eca2b69edb7ef357725680bea",
-      "liquidity_usd": 1474379.22,
-      "volume_24h_usd": 896819.13,
-      "market_cap_usd": 2591246.0,
-      "pair_age_days": 15.9,
-      "discovered_at": "2026-11-13T07:49:49.052135+00:00",
+      "liquidity_usd": 1565848.5,
+      "volume_24h_usd": 873614.37,
+      "market_cap_usd": 2633152.0,
+      "pair_age_days": 16.1,
+      "discovered_at": "2026-11-13T13:44:56.722467+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 0.569,
-      "volume_to_liquidity": 0.6083,
+      "liquidity_to_market_cap": 0.5947,
+      "volume_to_liquidity": 0.5579,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -37,7 +37,7 @@
           "is_mintable"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 34.09,
+        "top10_reported_wallets_pct": 36.11,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -73,18 +73,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x5a606e1533fb11870f3b6c2f98a7edda699b94bf",
-      "liquidity_usd": 157739.62,
-      "volume_24h_usd": 174790.41,
-      "market_cap_usd": 1297510.0,
-      "pair_age_days": 25.6,
-      "discovered_at": "2026-11-13T07:49:49.052135+00:00",
+      "liquidity_usd": 171680.95,
+      "volume_24h_usd": 135555.47,
+      "market_cap_usd": 1499656.0,
+      "pair_age_days": 25.8,
+      "discovered_at": "2026-11-13T13:44:56.722467+00:00",
       "sectors": [
         "Meme"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "GeckoTerminal",
-      "liquidity_to_market_cap": 0.1216,
-      "volume_to_liquidity": 1.1081,
+      "liquidity_to_market_cap": 0.1145,
+      "volume_to_liquidity": 0.7896,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -93,7 +93,7 @@
           "top10_wallets_over_60pct"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 75.87,
+        "top10_reported_wallets_pct": 75.63,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -129,18 +129,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0xe56041cddbb46db01c67b7a62684f428a04db8c6",
-      "liquidity_usd": 148803.72,
-      "volume_24h_usd": 106637.69,
-      "market_cap_usd": 286450.0,
-      "pair_age_days": 10.9,
-      "discovered_at": "2026-11-13T07:49:49.052135+00:00",
+      "liquidity_usd": 163211.73,
+      "volume_24h_usd": 217973.58,
+      "market_cap_usd": 330165.0,
+      "pair_age_days": 11.2,
+      "discovered_at": "2026-11-13T13:44:56.722467+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 0.5195,
-      "volume_to_liquidity": 0.7166,
+      "liquidity_to_market_cap": 0.4943,
+      "volume_to_liquidity": 1.3355,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -149,64 +149,10 @@
           "is_mintable"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 38.19,
+        "top10_reported_wallets_pct": 37.37,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
-      },
-      "project_verified": false,
-      "lp_lock_verified": false,
-      "holders_verified": false,
-      "sellability_verified": false,
-      "unlock_verified": false,
-      "decision": "SKIP",
-      "reason": "Incomplete independent security/product verification",
-      "secondary_source": {
-        "provider": "GeckoTerminal",
-        "status": "MATCH",
-        "checked": true,
-        "address_match": true,
-        "name_match": true,
-        "symbol_match": true,
-        "project_verified": false
-      }
-    },
-    {
-      "name": "thumb.meme",
-      "symbol": "thumb",
-      "chain": "bsc",
-      "contract": "0xeb489edbddc9dd845cc164a6b7469678510c7777",
-      "pair": "0x554087e843370b743d656c062f32a4dc0524d7b1",
-      "identity_evidence": {
-        "source": "DexScreener pair",
-        "chain": "bsc",
-        "base_address_matches_contract": true,
-        "pair_address_present": true,
-        "independent_project_identity_verified": false
-      },
-      "dex_url": "https://dexscreener.com/bsc/0x554087e843370b743d656c062f32a4dc0524d7b1",
-      "liquidity_usd": 13106.83,
-      "volume_24h_usd": 8973.32,
-      "market_cap_usd": 11410.0,
-      "pair_age_days": 0.0,
-      "discovered_at": "2026-11-13T07:49:49.052135+00:00",
-      "sectors": [
-        "Meme"
-      ],
-      "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
-      "discovery_source": "GeckoTerminal",
-      "liquidity_to_market_cap": 1.1487,
-      "volume_to_liquidity": 0.6846,
-      "security": {
-        "source": "GoPlus",
-        "checked": true,
-        "missing_fields": [],
-        "flags": [],
-        "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": null,
-        "top10_is_beneficial_ownership": false,
-        "lp_lock_status": "UNVERIFIED",
-        "status": "CHECKED_FIELDS_ONLY"
       },
       "project_verified": false,
       "lp_lock_verified": false,
@@ -239,18 +185,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
-      "liquidity_usd": 22751.38,
-      "volume_24h_usd": 2754.96,
-      "market_cap_usd": 57295.0,
-      "pair_age_days": 43.6,
-      "discovered_at": "2026-11-13T07:49:49.052135+00:00",
+      "liquidity_usd": 22996.23,
+      "volume_24h_usd": 2557.08,
+      "market_cap_usd": 57648.0,
+      "pair_age_days": 43.8,
+      "discovered_at": "2026-11-13T13:44:56.722467+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 0.3971,
-      "volume_to_liquidity": 0.1211,
+      "liquidity_to_market_cap": 0.3989,
+      "volume_to_liquidity": 0.1112,
       "security": {
         "source": "GoPlus",
         "checked": false,
@@ -259,7 +205,7 @@
         ],
         "flags": [],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 49.97,
+        "top10_reported_wallets_pct": 50.14,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "PARTIAL_CHECK"
@@ -491,6 +437,11 @@
       "at": "2026-11-13T07:49:49.052135+00:00",
       "candidates": 5,
       "screened": 40
+    },
+    {
+      "at": "2026-11-13T13:44:56.722467+00:00",
+      "candidates": 4,
+      "screened": 34
     }
   ],
   "search_errors": [],
@@ -508,16 +459,16 @@
     "RWA": 0,
     "Gaming": 0,
     "Infrastructure": 0,
-    "Meme": 2
+    "Meme": 1
   },
   "source_yield": {
     "DexScreener search/profile": 3,
     "DexScreener boosted/promotional": 0,
-    "GeckoTerminal": 2
+    "GeckoTerminal": 1
   },
   "dex_boost_leads": 0,
   "dex_boost_errors": [],
-  "geckoterminal_discovery_leads": 7,
+  "geckoterminal_discovery_leads": 4,
   "geckoterminal_discovery_errors": [],
   "coverage": "DexScreener thematic searches and promotional boosts plus GeckoTerminal BSC new/trending pools (may be unavailable). Pair data checked on DexScreener; not exhaustive",
   "note": "All candidates are unverified and SKIP. Boosts are paid promotion, not endorsement. GeckoTerminal indexing does not confirm project legitimacy. Screening can miss projects; no complete audit."
