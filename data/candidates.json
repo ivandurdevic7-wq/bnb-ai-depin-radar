@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-20T01:46:48.127900+00:00",
+  "updated_at": "2026-11-20T07:49:05.483967+00:00",
   "source": "DexScreener searches and pair data; GeckoTerminal new/trending BSC pools and limited identity cross-check; optional GoPlus",
-  "screened_bsc_profiles": 50,
+  "screened_bsc_profiles": 47,
   "candidates": [
     {
       "name": "Agentic Coin",
@@ -17,18 +17,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0xe56041cddbb46db01c67b7a62684f428a04db8c6",
-      "liquidity_usd": 133336.59,
-      "volume_24h_usd": 109272.7,
-      "market_cap_usd": 408019.0,
-      "pair_age_days": 17.7,
-      "discovered_at": "2026-11-20T01:46:48.127900+00:00",
+      "liquidity_usd": 123845.4,
+      "volume_24h_usd": 84310.99,
+      "market_cap_usd": 378427.0,
+      "pair_age_days": 17.9,
+      "discovered_at": "2026-11-20T07:49:05.483967+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "GeckoTerminal",
-      "liquidity_to_market_cap": 0.3268,
-      "volume_to_liquidity": 0.8195,
+      "liquidity_to_market_cap": 0.3273,
+      "volume_to_liquidity": 0.6808,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -37,7 +37,7 @@
           "is_mintable"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 30.41,
+        "top10_reported_wallets_pct": 30.12,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -73,18 +73,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x5a606e1533fb11870f3b6c2f98a7edda699b94bf",
-      "liquidity_usd": 98562.2,
-      "volume_24h_usd": 17470.14,
-      "market_cap_usd": 513943.0,
-      "pair_age_days": 32.3,
-      "discovered_at": "2026-11-20T01:46:48.127900+00:00",
+      "liquidity_usd": 81902.08,
+      "volume_24h_usd": 39046.11,
+      "market_cap_usd": 357912.0,
+      "pair_age_days": 32.6,
+      "discovered_at": "2026-11-20T07:49:05.483967+00:00",
       "sectors": [
         "Meme"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "GeckoTerminal",
-      "liquidity_to_market_cap": 0.1918,
-      "volume_to_liquidity": 0.1772,
+      "liquidity_to_market_cap": 0.2288,
+      "volume_to_liquidity": 0.4767,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -93,7 +93,7 @@
           "top10_wallets_over_60pct"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 75.03,
+        "top10_reported_wallets_pct": 75.31,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -129,18 +129,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x7dff59178bcb787cc44823c17941d5829af5c44a",
-      "liquidity_usd": 51841.94,
-      "volume_24h_usd": 359577.94,
-      "market_cap_usd": 143368.0,
-      "pair_age_days": 1.8,
-      "discovered_at": "2026-11-20T01:46:48.127900+00:00",
+      "liquidity_usd": 48592.81,
+      "volume_24h_usd": 484523.26,
+      "market_cap_usd": 115809.0,
+      "pair_age_days": 2.0,
+      "discovered_at": "2026-11-20T07:49:05.483967+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 0.3616,
-      "volume_to_liquidity": 6.936,
+      "liquidity_to_market_cap": 0.4196,
+      "volume_to_liquidity": 9.9711,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -150,7 +150,7 @@
           "top10_wallets_over_60pct"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 68.35,
+        "top10_reported_wallets_pct": 68.77,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -198,11 +198,6 @@
     "pepe"
   ],
   "successful_scans": [
-    {
-      "at": "2026-11-07T15:22:50.258309+00:00",
-      "candidates": 2,
-      "screened": 15
-    },
     {
       "at": "2026-11-07T15:25:36.031735+00:00",
       "candidates": 2,
@@ -497,6 +492,11 @@
       "at": "2026-11-20T01:46:48.127900+00:00",
       "candidates": 3,
       "screened": 50
+    },
+    {
+      "at": "2026-11-20T07:49:05.483967+00:00",
+      "candidates": 3,
+      "screened": 47
     }
   ],
   "search_errors": [],
@@ -521,7 +521,7 @@
     "DexScreener boosted/promotional": 0,
     "GeckoTerminal": 2
   },
-  "dex_boost_leads": 1,
+  "dex_boost_leads": 0,
   "dex_boost_errors": [],
   "geckoterminal_discovery_leads": 5,
   "geckoterminal_discovery_errors": [],
