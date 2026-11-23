@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-11-22T19:27:32.851772+00:00",
+  "updated_at": "2026-11-23T01:53:24.181595+00:00",
   "source": "DexScreener searches and pair data; GeckoTerminal new/trending BSC pools and limited identity cross-check; optional GoPlus",
-  "screened_bsc_profiles": 50,
+  "screened_bsc_profiles": 52,
   "candidates": [
     {
       "name": "SpaceX Inu",
@@ -17,18 +17,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x5a606e1533fb11870f3b6c2f98a7edda699b94bf",
-      "liquidity_usd": 108222.1,
-      "volume_24h_usd": 61589.49,
-      "market_cap_usd": 676143.0,
-      "pair_age_days": 35.0,
-      "discovered_at": "2026-11-22T19:27:32.851772+00:00",
+      "liquidity_usd": 122894.52,
+      "volume_24h_usd": 62265.67,
+      "market_cap_usd": 872169.0,
+      "pair_age_days": 35.3,
+      "discovered_at": "2026-11-23T01:53:24.181595+00:00",
       "sectors": [
         "Meme"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "GeckoTerminal",
-      "liquidity_to_market_cap": 0.1601,
-      "volume_to_liquidity": 0.5691,
+      "liquidity_to_market_cap": 0.1409,
+      "volume_to_liquidity": 0.5067,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -37,7 +37,7 @@
           "top10_wallets_over_60pct"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 72.41,
+        "top10_reported_wallets_pct": 71.35,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -73,18 +73,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0xe6efcdef2b720d1eca2b69edb7ef357725680bea",
-      "liquidity_usd": 103890.79,
-      "volume_24h_usd": 8914518.13,
-      "market_cap_usd": 1623988.0,
-      "pair_age_days": 25.4,
-      "discovered_at": "2026-11-22T19:27:32.851772+00:00",
+      "liquidity_usd": 63322.04,
+      "volume_24h_usd": 6082555.18,
+      "market_cap_usd": 759264.0,
+      "pair_age_days": 25.6,
+      "discovered_at": "2026-11-23T01:53:24.181595+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 0.064,
-      "volume_to_liquidity": 85.8066,
+      "liquidity_to_market_cap": 0.0834,
+      "volume_to_liquidity": 96.0575,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -94,7 +94,7 @@
           "top10_wallets_over_60pct"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 72.32,
+        "top10_reported_wallets_pct": 72.77,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -130,18 +130,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x7dff59178bcb787cc44823c17941d5829af5c44a",
-      "liquidity_usd": 14461.45,
-      "volume_24h_usd": 7023.31,
-      "market_cap_usd": 10100.0,
-      "pair_age_days": 4.5,
-      "discovered_at": "2026-11-22T19:27:32.851772+00:00",
+      "liquidity_usd": 14184.78,
+      "volume_24h_usd": 5895.89,
+      "market_cap_usd": 9693.0,
+      "pair_age_days": 4.8,
+      "discovered_at": "2026-11-23T01:53:24.181595+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 1.4318,
-      "volume_to_liquidity": 0.4857,
+      "liquidity_to_market_cap": 1.4634,
+      "volume_to_liquidity": 0.4156,
       "security": {
         "source": "GoPlus",
         "checked": true,
@@ -151,7 +151,7 @@
           "top10_wallets_over_60pct"
         ],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 90.18,
+        "top10_reported_wallets_pct": 90.98,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "FLAGS"
@@ -187,18 +187,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0xf2a4e4261fcdfbb891bcf703640fbe713c6cd0fe",
-      "liquidity_usd": 29526.1,
-      "volume_24h_usd": 1773.39,
-      "market_cap_usd": 1565978.0,
+      "liquidity_usd": 29566.76,
+      "volume_24h_usd": 1768.74,
+      "market_cap_usd": 1568134.0,
       "pair_age_days": null,
-      "discovered_at": "2026-11-22T19:27:32.851772+00:00",
+      "discovered_at": "2026-11-23T01:53:24.181595+00:00",
       "sectors": [
         "DeFi"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
       "liquidity_to_market_cap": 0.0189,
-      "volume_to_liquidity": 0.0601,
+      "volume_to_liquidity": 0.0598,
       "security": {
         "source": "GoPlus",
         "checked": false,
@@ -247,18 +247,18 @@
         "independent_project_identity_verified": false
       },
       "dex_url": "https://dexscreener.com/bsc/0x25ee4fa4bff5363d47496e68377b1241e8e21a47",
-      "liquidity_usd": 11550.08,
-      "volume_24h_usd": 1462.69,
-      "market_cap_usd": 18468.0,
-      "pair_age_days": 53.1,
-      "discovered_at": "2026-11-22T19:27:32.851772+00:00",
+      "liquidity_usd": 13810.87,
+      "volume_24h_usd": 2288.56,
+      "market_cap_usd": 26243.0,
+      "pair_age_days": 53.3,
+      "discovered_at": "2026-11-23T01:53:24.181595+00:00",
       "sectors": [
         "AI / DePIN"
       ],
       "sector_classification": "KEYWORD_HEURISTIC_UNVERIFIED",
       "discovery_source": "DexScreener search/profile",
-      "liquidity_to_market_cap": 0.6254,
-      "volume_to_liquidity": 0.1266,
+      "liquidity_to_market_cap": 0.5263,
+      "volume_to_liquidity": 0.1657,
       "security": {
         "source": "GoPlus",
         "checked": false,
@@ -267,7 +267,7 @@
         ],
         "flags": [],
         "sellability": "UNVERIFIED",
-        "top10_reported_wallets_pct": 58.87,
+        "top10_reported_wallets_pct": 55.56,
         "top10_is_beneficial_ownership": false,
         "lp_lock_status": "UNVERIFIED",
         "status": "PARTIAL_CHECK"
@@ -315,11 +315,6 @@
     "pepe"
   ],
   "successful_scans": [
-    {
-      "at": "2026-11-08T01:42:09.945793+00:00",
-      "candidates": 4,
-      "screened": 38
-    },
     {
       "at": "2026-11-08T07:37:07.139430+00:00",
       "candidates": 5,
@@ -614,6 +609,11 @@
       "at": "2026-11-22T19:27:32.851772+00:00",
       "candidates": 5,
       "screened": 50
+    },
+    {
+      "at": "2026-11-23T01:53:24.181595+00:00",
+      "candidates": 5,
+      "screened": 52
     }
   ],
   "search_errors": [],
